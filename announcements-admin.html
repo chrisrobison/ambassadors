@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcements Manager</title>
+    <style>
+        :root {
+            --primary-yellow: #ffdd00;
+            --dark-text: #1a1a1a;
+            --light-text: #ffffff;
+            --accent-blue: #007bff;
+            --background-light: #f9f9f9;
+            --success-green: #28a745;
+            --warning-orange: #ffc107;
+            --danger-red: #dc3545;
+            --gray-lighter: #f8f9fa;
+            --gray-light: #e9ecef;
+            --gray: #6c757d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            color: var(--dark-text);
+            line-height: 1.6;
+            background-color: var(--background-light);
+            padding-bottom: 50px;
+        }
+        
+        .navbar {
+            background-color: white;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            font-weight: bold;
+            font-size: 24px;
+            text-decoration: none;
+            color: var(--dark-text);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-yellow);
+            color: var(--dark-text);
+        }
+        
+        .btn-primary:hover {
+            background-color: #e6c700;
+        }
+        
+        .btn-secondary {
+            background-color: var(--gray);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger-red);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            background-color: var(--gray-light);
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        select.form-control {
+            height: 42px;
+        }
+        
+        .alert {
+            padding: 12px 20px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .alert-success {
+            background-color: rgba(40, 167, 69, 0.2);
+            border: 1px solid var(--success-green);
+            color: #155724;
+        }
+        
+        .alert-danger {
+            background-color: rgba(220, 53, 69, 0.2);
+            border: 1px solid var(--danger-red);
+            color: #721c24;
+        }
+        
+        .announcements-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .announcements-table th,
+        .announcements-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .announcements-table th {
+            background-color: var(--gray-light);
+            font-weight: bold;
+        }
+        
+        .announcements-table tr:hover {
+            background-color: var(--gray-lighter);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .status-published {
+            background-color: rgba(40, 167, 69, 0.2);
+            color: #155724;
+        }
+        
+        .status-draft {
+            background-color: rgba(255, 193, 7, 0.2);
+            color: #856404;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .truncate {
+            max-width: 250px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-body {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #ddd;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .close {
+            cursor: pointer;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .close:hover {
+            color: var(--danger-red);
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary-yellow);
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .truncate {
+                max-width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="#" class="logo">Announcements Manager</a>
+    </nav>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Manage Announcements</h1>
+            <button id="new-announcement-btn" class="btn btn-primary">+ New Announcement</button>
+        </div>
+        
+        <div id="alert-success" class="alert alert-success"></div>
+        <div id="alert-danger" class="alert alert-danger"></div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h2>All Announcements</h2>
+            </div>
+            <div class="card-body">
+                <div id="loading" class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading announcements...</p>
+                </div>
+                <div id="announcements-list">
+                    <table class="announcements-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Content</th>
+                                <th>Status</th>
+                                <th>Image</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="announcements-table-body">
+                            <!-- Announcements will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add/Edit Announcement Modal -->
+    <div id="announcement-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">New Announcement</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="announcement-form">
+                    <input type="hidden" id="announcement-id">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" id="title" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="content">Content</label>
+                        <textarea id="content" class="form-control" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status" class="form-control" required>
+                            <option value="Draft">Draft</option>
+                            <option value="Published">Published</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Image URL</label>
+                        <input type="text" id="image" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="chapters">Chapters (Comma separated IDs)</label>
+                        <input type="text" id="chapters" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="people">People (Comma separated IDs)</label>
+                        <input type="text" id="people" class="form-control">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
+                <button type="button" class="btn btn-primary" id="save-btn">Save</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Confirm Delete</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this announcement? This action cannot be undone.</p>
+                <input type="hidden" id="delete-announcement-id">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="delete-cancel-btn">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirm-delete-btn">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration - Replace with your actual Airtable credentials
+        const AIRTABLE_PERSONAL_ACCESS_TOKEN = 'patMjZbsaWTx0F7Xi.fcb10546df8314407ed9dab43e4360246fdb4ac69c9c39648b995589dda10c7d';
+        const AIRTABLE_BASE_ID = 'appwHxV0TBit0ka3F';
+        const AIRTABLE_TABLE_NAME = 'Announcements'; // Replace with your table name
+        
+        // DOM Elements
+        const newAnnouncementBtn = document.getElementById('new-announcement-btn');
+        const announcementsTableBody = document.getElementById('announcements-table-body');
+        const announcementModal = document.getElementById('announcement-modal');
+        const deleteModal = document.getElementById('delete-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const announcementForm = document.getElementById('announcement-form');
+        const cancelBtn = document.getElementById('cancel-btn');
+        const saveBtn = document.getElementById('save-btn');
+        const deleteBtn = document.getElementById('confirm-delete-btn');
+        const deleteCancelBtn = document.getElementById('delete-cancel-btn');
+        const modalCloseButtons = document.querySelectorAll('.close');
+        const loadingIndicator = document.getElementById('loading');
+        const alertSuccess = document.getElementById('alert-success');
+        const alertDanger = document.getElementById('alert-danger');
+        
+        // Form fields
+        const announcementIdField = document.getElementById('announcement-id');
+        const titleField = document.getElementById('title');
+        const contentField = document.getElementById('content');
+        const statusField = document.getElementById('status');
+        const imageField = document.getElementById('image');
+        const chaptersField = document.getElementById('chapters');
+        const peopleField = document.getElementById('people');
+        const deleteAnnouncementIdField = document.getElementById('delete-announcement-id');
+        
+        // Mock data for demonstration
+        const mockAnnouncements = {
+            "records": [
+                {
+                    "id": "rec6wSke0NBJo72qn",
+                    "createdTime": "2025-03-10T02:46:09.000Z",
+                    "fields": {
+                        "Title": "Our New Announcement!",
+                        "Content": "This is an announcement of the new announcement system\n",
+                        "Status": "Draft",
+                        "Chapters": [
+                            "recLVDrWB7lvOZEeV"
+                        ],
+                        "People": [
+                            "rec7hoZnRipQuJxXR"
+                        ],
+                        "Name (from People)": [
+                            "Dana Sacco"
+                        ],
+                        "Image": "http://thegivehub.com/img/event-1.jpg"
+                    }
+                },
+                {
+                    "id": "rec123456789",
+                    "createdTime": "2025-03-11T10:30:00.000Z",
+                    "fields": {
+                        "Title": "Upcoming Community Event",
+                        "Content": "Join us for our monthly community gathering where we'll discuss new initiatives and opportunities.",
+                        "Status": "Published",
+                        "Chapters": [
+                            "recLVDrWB7lvOZEeV"
+                        ],
+                        "Image": "http://thegivehub.com/img/event-2.jpg"
+                    }
+                },
+                {
+                    "id": "rec987654321",
+                    "createdTime": "2025-03-12T15:20:00.000Z",
+                    "fields": {
+                        "Title": "New Partnership Announcement",
+                        "Content": "We're excited to announce our new partnership with XYZ Organization to expand our reach and impact.",
+                        "Status": "Draft",
+                        "People": [
+                            "rec7hoZnRipQuJxXR"
+                        ],
+                        "Image": "http://thegivehub.com/img/partner-1.jpg"
+                    }
+                }
+            ]
+        };
+        
+        // Fetch announcements from Airtable
+        async function fetchAnnouncements() {
+            try {
+                // In a real application, you would use:
+                const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`;
+                const response = await fetch(url, {
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch announcements');
+                }
+                
+                return await response.json();
+                
+                // For demonstration, return mock data
+                return mockAnnouncements;
+            } catch (error) {
+                showAlert(error.message, 'danger');
+                return { records: [] };
+            }
+        }
+        
+        // Create a new announcement or update existing one
+        async function saveAnnouncement(announcementData) {
+            const isNewAnnouncement = !announcementData.id;
+            
+            try {
+                // In a real application, you would use:
+                const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`;
+                const method = isNewAnnouncement ? 'POST' : 'PATCH';
+                const body = isNewAnnouncement 
+                    ? JSON.stringify({ records: [{ fields: announcementData }] })
+                    : JSON.stringify({ 
+                        records: [{ 
+                            id: announcementData.id, 
+                            fields: announcementData.fields 
+                        }] 
+                    });
+                
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: body
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to save announcement');
+                }
+                
+                const data = await response.json();
+                return data;
+                
+                // For demonstration, simulate success
+                return {
+                    success: true,
+                    message: isNewAnnouncement ? 'Announcement created successfully.' : 'Announcement updated successfully.'
+                };
+            } catch (error) {
+                showAlert(error.message, 'danger');
+                return { success: false };
+            }
+        }
+        
+        // Delete an announcement
+        async function deleteAnnouncement(id) {
+            try {
+                // In a real application, you would use:
+                const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}/${id}`;
+                const response = await fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to delete announcement');
+                }
+                
+                return await response.json();
+                
+                // For demonstration, simulate success
+                return {
+                    success: true,
+                    message: 'Announcement deleted successfully.'
+                };
+            } catch (error) {
+                showAlert(error.message, 'danger');
+                return { success: false };
+            }
+        }
+        
+        // Display announcements in the table
+        function displayAnnouncements(announcements) {
+            announcementsTableBody.innerHTML = '';
+            
+            const validAnnouncements = announcements.records.filter(record => 
+                record.fields && Object.keys(record.fields).length > 0
+            );
+            
+            if (validAnnouncements.length === 0) {
+                const emptyRow = document.createElement('tr');
+                emptyRow.innerHTML = '<td colspan="5" style="text-align: center;">No announcements found.</td>';
+                announcementsTableBody.appendChild(emptyRow);
+                return;
+            }
+            
+            validAnnouncements.forEach(announcement => {
+                const row = document.createElement('tr');
+                
+                const title = announcement.fields.Title || 'Untitled';
+                const content = announcement.fields.Content || 'No content';
+                const status = announcement.fields.Status || 'Draft';
+                const image = announcement.fields.Image || '';
+                
+                row.innerHTML = `
+                    <td class="truncate">${title}</td>
+                    <td class="truncate">${content}</td>
+                    <td>
+                        <span class="status-badge ${status.toLowerCase() === 'published' ? 'status-published' : 'status-draft'}">
+                            ${status}
+                        </span>
+                    </td>
+                    <td>${image ? '<span style="color: green;">✓</span>' : '-'}</td>
+                    <td class="actions">
+                        <button class="btn btn-secondary action-btn edit-btn" data-id="${announcement.id}">Edit</button>
+                        <button class="btn btn-danger action-btn delete-btn" data-id="${announcement.id}">Delete</button>
+                    </td>
+                `;
+                
+                announcementsTableBody.appendChild(row);
+            });
+            
+            // Add edit and delete event listeners
+            document.querySelectorAll('.edit-btn').forEach(button => {
+                button.addEventListener('click', (e) => openEditModal(e.target.dataset.id));
+            });
+            
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', (e) => openDeleteModal(e.target.dataset.id));
+            });
+        }
+        
+        // Open the modal for a new announcement
+        function openNewModal() {
+            modalTitle.textContent = 'New Announcement';
+            announcementForm.reset();
+            announcementIdField.value = '';
+            announcementModal.style.display = 'flex';
+        }
+        
+        // Open the modal for editing an announcement
+        function openEditModal(id) {
+            const announcement = mockAnnouncements.records.find(record => record.id === id);
+            
+            if (!announcement) {
+                showAlert('Announcement not found.', 'danger');
+                return;
+            }
+            
+            modalTitle.textContent = 'Edit Announcement';
+            announcementIdField.value = announcement.id;
+            titleField.value = announcement.fields.Title || '';
+            contentField.value = announcement.fields.Content || '';
+            statusField.value = announcement.fields.Status || 'Draft';
+            imageField.value = announcement.fields.Image || '';
+            chaptersField.value = announcement.fields.Chapters ? announcement.fields.Chapters.join(',') : '';
+            peopleField.value = announcement.fields.People ? announcement.fields.People.join(',') : '';
+            
+            announcementModal.style.display = 'flex';
+        }
+        
+        // Open the delete confirmation modal
+        function openDeleteModal(id) {
+            deleteAnnouncementIdField.value = id;
+            deleteModal.style.display = 'flex';
+        }
+        
+        // Close any open modal
+        function closeModals() {
+            announcementModal.style.display = 'none';
+            deleteModal.style.display = 'none';
+        }
+        
+        // Save announcement from form data
+        function handleSaveAnnouncement() {
+            const id = announcementIdField.value;
+            const isNewAnnouncement = !id;
+            
+            // Get form values
+            const title = titleField.value.trim();
+            const content = contentField.value.trim();
+            const status = statusField.value;
+            const image = imageField.value.trim();
+            const chapters = chaptersField.value ? chaptersField.value.split(',').map(c => c.trim()) : [];
+            const people = peopleField.value ? peopleField.value.split(',').map(p => p.trim()) : [];
+            
+            if (!title || !content) {
+                showAlert('Title and content are required.', 'danger');
+                return;
+            }
+            
+            let announcementData;
+            
+            if (isNewAnnouncement) {
+                announcementData = {
+                    fields: {
+                        Title: title,
+                        Content: content,
+                        Status: status,
+                        Image: image || null,
+                        Chapters: chapters.length > 0 ? chapters : null,
+                        People: people.length > 0 ? people : null
+                    }
+                };
+            } else {
+                announcementData = {
+                    id: id,
+                    fields: {
+                        Title: title,
+                        Content: content,
+                        Status: status,
+                        Image: image || null,
+                        Chapters: chapters.length > 0 ? chapters : null,
+                        People: people.length > 0 ? people : null
+                    }
+                };
+            }
+            
+            saveAnnouncement(announcementData)
+                .then(result => {
+                    if (result.success) {
+                        closeModals();
+                        showAlert(result.message, 'success');
+                        loadAnnouncements();
+                    }
+                });
+        }
+        
+        // Handle announcement deletion
+        function handleDeleteAnnouncement() {
+            const id = deleteAnnouncementIdField.value;
+            
+            if (!id) {
+                showAlert('Invalid announcement ID.', 'danger');
+                return;
+            }
+            
+            deleteAnnouncement(id)
+                .then(result => {
+                    if (result.success) {
+                        closeModals();
+                        showAlert(result.message, 'success');
+                        loadAnnouncements();
+                    }
+                });
+        }
+        
+        // Show alert message
+        function showAlert(message, type) {
+            const alert = type === 'success' ? alertSuccess : alertDanger;
+            alert.textContent = message;
+            alert.style.display = 'block';
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Load announcements and update UI
+        function loadAnnouncements() {
+            loadingIndicator.style.display = 'block';
+            
+            fetchAnnouncements()
+                .then(data => {
+                    displayAnnouncements(data);
+                    loadingIndicator.style.display = 'none';
+                })
+                .catch(error => {
+                    showAlert('Error loading announcements: ' + error.message, 'danger');
+                    loadingIndicator.style.display = 'none';
+                });
+        }
+        
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load announcements on page load
+            loadAnnouncements();
+            
+            // New announcement button
+            newAnnouncementBtn.addEventListener('click', openNewModal);
+            
+            // Save button
+            saveBtn.addEventListener('click', handleSaveAnnouncement);
+            
+            // Delete button
+            deleteBtn.addEventListener('click', handleDeleteAnnouncement);
+            
+            // Cancel buttons
+            cancelBtn.addEventListener('click', closeModals);
+            deleteCancelBtn.addEventListener('click', closeModals);
+            
+            // Close buttons
+            modalCloseButtons.forEach(button => {
+                button.addEventListener('click', closeModals);
+            });
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target === announcementModal) {
+                    closeModals();
+                }
+                if (e.target === deleteModal) {
+                    closeModals();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

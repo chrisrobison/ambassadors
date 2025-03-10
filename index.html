@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming Events</title>
+    <style>
+        :root {
+            --primary-yellow: #ffdd00;
+            --dark-text: #1a1a1a;
+            --light-text: #ffffff;
+            --accent-blue: #007bff;
+            --background-light: #f9f9f9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            color: var(--dark-text);
+            line-height: 1.6;
+        }
+        
+        .navbar {
+            background-color: white;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            font-weight: bold;
+            font-size: 24px;
+            text-decoration: none;
+            color: var(--dark-text);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-text);
+            font-weight: 500;
+        }
+        
+        .hero {
+            height: 50vh;
+            background-color: #333;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+        }
+        
+        .hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            z-index: 0;
+        }
+        
+        .hero-content {
+            z-index: 1;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .hero-content h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .section {
+            padding: 60px 10%;
+        }
+        
+        .yellow-section {
+            background-color: var(--primary-yellow);
+            color: var(--dark-text);
+        }
+        
+        .section-header {
+            margin-bottom: 40px;
+        }
+        
+        .section-header h2 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        
+        .section-header p {
+            font-size: 18px;
+            max-width: 800px;
+        }
+        
+        .events-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .event-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .event-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .event-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .event-details {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .event-date {
+            font-weight: bold;
+            color: var(--accent-blue);
+            margin-bottom: 10px;
+        }
+        
+        .event-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--dark-text);
+        }
+        
+        .event-description {
+            color: #666;
+            margin-bottom: 15px;
+            flex: 1;
+        }
+        
+        .event-button {
+            display: inline-block;
+            background-color: var(--primary-yellow);
+            color: var(--dark-text);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            transition: background-color 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .event-button:hover {
+            background-color: #e6c700;
+        }
+        
+        .loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary-yellow);
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .footer {
+            background-color: var(--dark-text);
+            color: var(--light-text);
+            padding: 40px 10%;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .footer-links a {
+            color: var(--light-text);
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .events-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-content h1 {
+                font-size: 32px;
+            }
+            
+            .section {
+                padding: 40px 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="#" class="logo">Ambassador Events</a>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Events</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </div>
+    </nav>
+    
+    <section class="hero">
+        <img src="ambassador-bg.jpg" alt="Events background">
+        <div class="hero-content">
+            <h1>Upcoming Events</h1>
+            <p>Discover and join our community events</p>
+        </div>
+    </section>
+    
+    <section class="section">
+        <div class="section-header">
+            <h2>Upcoming Events</h2>
+            <p>Join us for these exciting events and opportunities to connect, learn, and grow with our community.</p>
+        </div>
+        
+        <div id="events-container" class="events-container">
+            <div class="loader">
+                <div class="spinner"></div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="yellow-section section">
+        <div class="section-header">
+            <h2>Get Involved</h2>
+            <p>We're committed to fostering a community of learning and growth. Join us at our events to connect with like-minded individuals and expand your network.</p>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="#" class="event-button">Contact Us</a>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <p>&copy; 2025 EventsHub. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Contact</a>
+        </div>
+    </footer>
+
+    <script>
+        // Configuration - Replace with your actual Airtable Personal Access Token and base ID
+        const AIRTABLE_PERSONAL_ACCESS_TOKEN = 'patMjZbsaWTx0F7Xi.fcb10546df8314407ed9dab43e4360246fdb4ac69c9c39648b995589dda10c7d';
+        const AIRTABLE_BASE_ID = 'appwHxV0TBit0ka3F';
+        const AIRTABLE_TABLE_NAME = 'Events'; // Replace with your table name
+        //const AIRTABLE_WORKSPACE_ID = 'YOUR_WORKSPACE_ID'; // Optional, if needed for shared workspaces
+        
+        // Sample data based on your Airtable structure
+        /*
+        const mockEvents = {
+            "records": [
+                {
+                    "id": "recxUpa6A5x7dR54a",
+                    "createdTime": "2025-03-08T22:05:24.000Z",
+                    "fields": {
+                        "Event Name": "Stellar SP Meetup: A Nova Era Blockchain",
+                        "Chapter": [
+                            "recwuvlJjgtRTmU7y"
+                        ],
+                        "Date and Time": "2025-02-25T19:00:00.000Z",
+                        "Description": "After an incredible first edition, we're bringing the second edition of our Tokenization & Blockchain event to the heart of São Paulo, one of the busiest and most influential financial centers in Latin America.  Join us to dive even deeper into Stellar's blockchain capabilities, explore the latest in tokenization, and discover real-world applications that are transforming industries. Whether you're a developer, entrepreneur, or blockchain enthusiast, this is your chance to network, learn, and be part of the future of digital finance.",
+                        "Group Photo": [
+                            {
+                                "id": "attI4Waly5w2eEE8I",
+                                "width": 6960,
+                                "height": 4640,
+                                "url": "https://v5.airtableusercontent.com/v3/u/38/38/1741579200000/j3d8hI-ajl-UlcRxdylmzg/sD9FN2CH29J8Zc0fCeTnWhPUTp6S25hFMYsqsEme4URanRqYDtRKxrhTDS8wrNHwnXZ7oQvXhWtW08otTFnHaBokPaitlMkwbG32hytQQLBkJhXll95-FTix3DE89UmC7mi8sIlEwAFEu1LyX2uW5ei8pqKILVKSHyFWzZyJKM4/_veLNGRJcNAavNpiU6W9Zh0V2dT823pntn2vdBHoEyM",
+                                "thumbnails": {
+                                    "small": {
+                                        "url": "https://v5.airtableusercontent.com/v3/u/38/38/1741579200000/noOihKDgWRye9fZ-69Kv7w/XZ1bJbPB6rCP9q_y8GjMuFnPHPBTjPB7buuHNZ7rwBte989uVV1CBWTadm9EmMpq_G8j6i8GSL9tPV8vHHSSnFWtO2vuR4QbB2n9jcNb7kyRpXx5m5SVsEMpgvHLxMhn2vnfoR7W47S9a4yMgdIuEg/YWo-RPoUjYhedas9RPSarMDX8hNHcWuVWVKCuLlujd0"
+                                    },
+                                    "large": {
+                                        "url": "https://v5.airtableusercontent.com/v3/u/38/38/1741579200000/m33DNzCdiTdlggWZDVmFFw/cO_b7CnDnf7t-uZPVf7v19IORjgO9O_x1z0lHmS7EMGCleHBQDQdqOpxWjks-vjR2dDni7QIxj7sqsFpaU1Zrwp_ezfLxPfIztCWgeuL7UTyYmAnML-4tgRS-j7jVJ8wd-kl9ANLCO7UdX_v7Zx-QQ/iGO59DBd77YCURmxvKYJ1Vbfo1MHw2CPK3D-C7hSHkA"
+                                    }
+                                }
+                            }
+                        ],
+                        "Email List": "https://docs.google.com/spreadsheets/d/1q-3OpPRtwFWx86fjEiWU-iW2WaoUKqhU/edit?gid=995454575#gid=995454575",
+                        "Review Period": [
+                            "recrxrShWB7tftV6H"
+                        ],
+                        "Attendance": "30",
+                        "All Photos": "https://drive.google.com/drive/folders/1Adw8lxaGnfbr2tu4sOPNshnM2Q-jnaNm"
+                    }
+                },
+                {
+                    "id": "recHMipZQpYilSf46",
+                    "createdTime": "2025-03-10T01:18:26.000Z",
+                    "fields": {}
+                }
+            ]
+        };
+        */
+        // Function to fetch events from Airtable
+        // This is commented out since we're using mock data
+        async function fetchEventsFromAirtable() {
+            try {
+                // Standard API endpoint (usually this works for most cases)
+                let url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`;
+                
+                // If you need to specify the workspace explicitly (uncomment if needed)
+                // url = `https://api.airtable.com/v0/workspaces/${AIRTABLE_WORKSPACE_ID}/bases/${AIRTABLE_BASE_ID}/tables/${AIRTABLE_TABLE_NAME}`;
+                
+                const response = await fetch(url, {
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch events from Airtable');
+                }
+                
+                // Return the raw Airtable response structure
+                return await response.json();
+            } catch (error) {
+                console.error('Error fetching events:', error);
+                return [];
+            }
+        }
+        
+        // Function to format date
+        function formatDate(dateString) {
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+        
+        // Function to display events
+        function displayEvents(eventsData) {
+            const container = document.getElementById('events-container');
+            container.innerHTML = '';
+            
+            const events = eventsData.records.filter(record => Object.keys(record.fields).length > 0);
+            
+            if (events.length === 0) {
+                container.innerHTML = '<p>No upcoming events at the moment. Check back soon!</p>';
+                return;
+            }
+            
+            events.forEach(event => {
+                const eventCard = document.createElement('div');
+                eventCard.className = 'event-card';
+                
+                // Get image URL or use placeholder
+                let imageUrl = '/api/placeholder/600/400';
+                let imageAlt = 'Event image';
+                
+                if (event.fields['Group Photo'] && event.fields['Group Photo'].length > 0) {
+                    // Use large thumbnail if available
+                    if (event.fields['Group Photo'][0].thumbnails && event.fields['Group Photo'][0].thumbnails.large) {
+                        imageUrl = event.fields['Group Photo'][0].thumbnails.large.url;
+                    } else {
+                        imageUrl = event.fields['Group Photo'][0].url;
+                    }
+                    imageAlt = event.fields['Event Name'] || 'Event image';
+                }
+                
+                // Get links
+                const emailListLink = event.fields['Email List'] || '#';
+                const allPhotosLink = event.fields['All Photos'] || '#';
+                
+                eventCard.innerHTML = `
+                    <div class="event-image">
+                        <img src="${imageUrl}" alt="${imageAlt}">
+                    </div>
+                    <div class="event-details">
+                        <div class="event-date">${event.fields['Date and Time'] ? formatDate(event.fields['Date and Time']) : 'Date TBD'}</div>
+                        <h3 class="event-title">${event.fields['Event Name'] || 'Untitled Event'}</h3>
+                        <p class="event-description">${event.fields['Description'] || 'No description available.'}</p>
+                        ${event.fields['Attendance'] ? `<p><strong>Attendance:</strong> ${event.fields['Attendance']}</p>` : ''}
+                        <div class="event-links">
+                            ${emailListLink !== '#' ? `<a href="${emailListLink}" class="event-button" target="_blank">Email List</a>` : ''}
+                            ${allPhotosLink !== '#' ? `<a href="${allPhotosLink}" class="event-button" target="_blank">View Photos</a>` : ''}
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(eventCard);
+            });
+        }
+        
+        // Add styles for event links
+        const styles = document.createElement('style');
+        styles.textContent = `
+            .event-links {
+                display: flex;
+                gap: 10px;
+                margin-top: 15px;
+            }
+            
+            .event-card .event-button {
+                flex: 1;
+                text-align: center;
+            }
+        `;
+        document.head.appendChild(styles);
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            // In a real application, you would use:
+            const eventsData = await fetchEventsFromAirtable();
+            displayEvents(eventsData);            
+            // For demonstration, we use mock data with a timeout to simulate loading
+            // setTimeout(() => { displayEvents(mockEvents); }, 1000);
+        });
+    </script>
+</body>
+</html>

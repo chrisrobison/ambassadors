@@ -1,0 +1,200 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <defs>
+    <!-- Texture patterns -->
+    <pattern id="dotPattern" patternUnits="userSpaceOnUse" width="10" height="10">
+      <circle cx="5" cy="5" r="1" fill="#000" fill-opacity="0.5" />
+    </pattern>
+    
+    <!-- Filter for noise effects -->
+    <filter id="noise" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="42" />
+      <feDisplacementMap in="SourceGraphic" scale="10" />
+    </filter>
+  </defs>
+  
+  <!-- Empty group to add generated elements -->
+  <g id="container">
+    <rect width="100%" height="100%" fill="#f0f0f0" />
+  </g>
+  
+  <script type="text/javascript"><![CDATA[
+    // Utility functions
+    function random(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    
+    function randomFloat(min, max) {
+      return min + Math.random() * (max - min);
+    }
+    
+    function randomOpacity() {
+      return randomFloat(0.3, 0.8).toFixed(2);
+    }
+    
+    // Colors
+    const colors = {
+      yellow: "#FFD700",
+      purple: "#B19CD9",
+      white: "#FFFFFF",
+      black: "#000000"
+    };
+    
+    // SVG namespace
+    const svgNS = "http://www.w3.org/2000/svg";
+    
+    // Create random shapes
+    function createRandomPath(pointCount, width, height) {
+      let path = `M${random(0, width)},${random(0, height)}`;
+      
+      for (let i = 0; i < pointCount; i++) {
+        const x = random(0, width);
+        const y = random(0, height);
+        const controlX1 = random(0, width);
+        const controlY1 = random(0, height);
+        
+        path += ` Q${controlX1},${controlY1} ${x},${y}`;
+      }
+      
+      return path;
+    }
+    
+    function createYellowShapes(container, count, width, height) {
+      for (let i = 0; i < count; i++) {
+        const shapeType = random(1, 3);
+        
+        if (shapeType === 1) {
+          // Create path
+          const path = document.createElementNS(svgNS, "path");
+          path.setAttribute("d", createRandomPath(3, width, height));
+          path.setAttribute("fill", colors.yellow);
+          path.setAttribute("fill-opacity", randomOpacity());
+          path.setAttribute("transform", `rotate(${random(-20, 20)})`);
+          container.appendChild(path);
+        } else if (shapeType === 2) {
+          // Create rectangle
+          const rect = document.createElementNS(svgNS, "rect");
+          rect.setAttribute("x", random(0, width - 200));
+          rect.setAttribute("y", random(0, height - 200));
+          rect.setAttribute("width", random(50, 200));
+          rect.setAttribute("height", random(50, 200));
+          rect.setAttribute("fill", colors.yellow);
+          rect.setAttribute("fill-opacity", randomOpacity());
+          rect.setAttribute("transform", `rotate(${random(-20, 20)}, ${random(0, width)}, ${random(0, height)})`);
+          container.appendChild(rect);
+        } else {
+          // Create circle
+          const circle = document.createElementNS(svgNS, "circle");
+          circle.setAttribute("cx", random(0, width));
+          circle.setAttribute("cy", random(0, height));
+          circle.setAttribute("r", random(30, 150));
+          circle.setAttribute("fill", colors.yellow);
+          circle.setAttribute("fill-opacity", randomOpacity());
+          container.appendChild(circle);
+        }
+      }
+    }
+    
+    function createPurpleShapes(container, count, width, height) {
+      for (let i = 0; i < count; i++) {
+        const shapeType = random(1, 3);
+        
+        if (shapeType === 1) {
+          // Create path
+          const path = document.createElementNS(svgNS, "path");
+          path.setAttribute("d", createRandomPath(3, width, height));
+          path.setAttribute("fill", colors.purple);
+          path.setAttribute("fill-opacity", randomOpacity());
+          path.setAttribute("transform", `rotate(${random(-20, 20)})`);
+          container.appendChild(path);
+        } else if (shapeType === 2) {
+          // Create rectangle
+          const rect = document.createElementNS(svgNS, "rect");
+          rect.setAttribute("x", random(0, width - 200));
+          rect.setAttribute("y", random(0, height - 200));
+          rect.setAttribute("width", random(50, 200));
+          rect.setAttribute("height", random(50, 200));
+          rect.setAttribute("fill", colors.purple);
+          rect.setAttribute("fill-opacity", randomOpacity());
+          rect.setAttribute("transform", `rotate(${random(-20, 20)}, ${random(0, width)}, ${random(0, height)})`);
+          container.appendChild(rect);
+        } else {
+          // Create circle
+          const circle = document.createElementNS(svgNS, "circle");
+          circle.setAttribute("cx", random(0, width));
+          circle.setAttribute("cy", random(0, height));
+          circle.setAttribute("r", random(30, 150));
+          circle.setAttribute("fill", colors.purple);
+          circle.setAttribute("fill-opacity", randomOpacity());
+          container.appendChild(circle);
+        }
+      }
+    }
+    
+    function createBlackSpecs(container, count, width, height) {
+      for (let i = 0; i < count; i++) {
+        const spec = document.createElementNS(svgNS, "rect");
+        spec.setAttribute("x", random(0, width));
+        spec.setAttribute("y", random(0, height));
+        spec.setAttribute("width", random(5, 20));
+        spec.setAttribute("height", random(5, 20));
+        spec.setAttribute("fill", colors.black);
+        spec.setAttribute("fill-opacity", randomOpacity());
+        container.appendChild(spec);
+      }
+    }
+    
+    function createWhiteSparkles(container, count, width, height) {
+      for (let i = 0; i < count; i++) {
+        const sparkle = document.createElementNS(svgNS, "circle");
+        sparkle.setAttribute("cx", random(0, width));
+        sparkle.setAttribute("cy", random(0, height));
+        sparkle.setAttribute("r", random(1, 4));
+        sparkle.setAttribute("fill", colors.white);
+        container.appendChild(sparkle);
+      }
+    }
+    
+    // Main function to generate all elements
+    function generateArt() {
+      const container = document.getElementById("container");
+      const width = 800;
+      const height = 400;
+      
+      // Create yellow shapes
+      createYellowShapes(container, random(5, 8), width, height);
+      
+      // Create purple shapes
+      createPurpleShapes(container, random(3, 6), width, height);
+      
+      // Create black specs
+      createBlackSpecs(container, random(10, 30), width, height);
+      
+      // Create white sparkles
+      createWhiteSparkles(container, random(15, 25), width, height);
+      
+      // Create some noise filtered elements
+      const noiseGroup = document.createElementNS(svgNS, "g");
+      noiseGroup.setAttribute("filter", "url(#noise)");
+      
+      // Add some strokes with noise
+      const noisePath1 = document.createElementNS(svgNS, "path");
+      noisePath1.setAttribute("d", createRandomPath(4, width, height));
+      noisePath1.setAttribute("stroke", colors.yellow);
+      noisePath1.setAttribute("stroke-width", "10");
+      noisePath1.setAttribute("fill", "none");
+      noiseGroup.appendChild(noisePath1);
+      
+      const noisePath2 = document.createElementNS(svgNS, "path");
+      noisePath2.setAttribute("d", createRandomPath(4, width, height));
+      noisePath2.setAttribute("stroke", colors.purple);
+      noisePath2.setAttribute("stroke-width", "8");
+      noisePath2.setAttribute("fill", "none");
+      noiseGroup.appendChild(noisePath2);
+      
+      container.appendChild(noiseGroup);
+    }
+    
+    // Generate the art when SVG loads
+    generateArt();
+  ]]></script>
+</svg>
