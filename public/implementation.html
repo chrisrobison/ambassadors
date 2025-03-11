@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>implementation</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        background-color: #232629;
+        color: #7a7c7d;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d;  padding-left: 4px; }
+    div.sourceCode
+      { color: #cfcfc2; background-color: #232629; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #cfcfc2; } /* Normal */
+    code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
+    code span.an { color: #3f8058; } /* Annotation */
+    code span.at { color: #2980b9; } /* Attribute */
+    code span.bn { color: #f67400; } /* BaseN */
+    code span.bu { color: #7f8c8d; } /* BuiltIn */
+    code span.cf { color: #fdbc4b; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #3daee9; } /* Char */
+    code span.cn { color: #27aeae; font-weight: bold; } /* Constant */
+    code span.co { color: #7a7c7d; } /* Comment */
+    code span.cv { color: #7f8c8d; } /* CommentVar */
+    code span.do { color: #a43340; } /* Documentation */
+    code span.dt { color: #2980b9; } /* DataType */
+    code span.dv { color: #f67400; } /* DecVal */
+    code span.er { color: #da4453; text-decoration: underline; } /* Error */
+    code span.ex { color: #0099ff; font-weight: bold; } /* Extension */
+    code span.fl { color: #f67400; } /* Float */
+    code span.fu { color: #8e44ad; } /* Function */
+    code span.im { color: #27ae60; } /* Import */
+    code span.in { color: #c45b00; } /* Information */
+    code span.kw { color: #cfcfc2; font-weight: bold; } /* Keyword */
+    code span.op { color: #cfcfc2; } /* Operator */
+    code span.ot { color: #27ae60; } /* Other */
+    code span.pp { color: #27ae60; } /* Preprocessor */
+    code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
+    code span.sc { color: #3daee9; } /* SpecialChar */
+    code span.ss { color: #da4453; } /* SpecialString */
+    code span.st { color: #f44f4f; } /* String */
+    code span.va { color: #27aeae; } /* Variable */
+    code span.vs { color: #da4453; } /* VerbatimString */
+    code span.wa { color: #da4453; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="https://cdr2.com/pandoc.css" />
+</head>
+<body>
+<h1 id="admin-portal-implementation-guide">Admin Portal Implementation
+Guide</h1>
+<p>This document provides detailed instructions for deploying the Admin
+Portal application to a new server environment. The portal integrates
+event management and announcement features with a centralized
+dashboard.</p>
+<h2 id="application-overview">Application Overview</h2>
+<p>The Admin Portal consists of the following files: -
+<code>index.html</code> - Public-facing page for viewing events -
+<code>portal.html</code> - Main admin interface with integrated
+dashboard, events, and announcements management -
+<code>announcements-admin.html</code> - Standalone announcements
+management page (optional after integration) -
+<code>events-admin.html</code> - Standalone events management page
+(optional after integration)</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>Web server with HTML, CSS, and JavaScript support (Apache, Nginx,
+etc.)</li>
+<li>Airtable account with appropriate base configuration</li>
+<li>Personal Access Token (PAT) for Airtable API access</li>
+</ul>
+<h2 id="server-requirements">Server Requirements</h2>
+<ul>
+<li>Any static web server capable of serving HTML/CSS/JS files</li>
+<li>No server-side processing required (all API calls are
+client-side)</li>
+<li>HTTPS recommended for production environments due to API token
+usage</li>
+</ul>
+<h2 id="installation-steps">Installation Steps</h2>
+<ol type="1">
+<li><p><strong>Prepare the Directory Structure</strong></p>
+<pre><code>/admin-portal/
+├── index.html
+├── portal.html
+└── assets/
+    ├── img/
+    │   ├── logo.svg
+    │   └── ambassador-bg.jpg
+    └── css/ (optional - styles are currently embedded)</code></pre></li>
+<li><p><strong>Update API Configuration</strong></p>
+<p>Locate and update the following configuration variables in each
+file:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> AIRTABLE_PERSONAL_ACCESS_TOKEN <span class="op">=</span> <span class="st">&#39;your_personal_access_token&#39;</span><span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> AIRTABLE_BASE_ID <span class="op">=</span> <span class="st">&#39;your_base_id&#39;</span><span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> AIRTABLE_EVENTS_TABLE <span class="op">=</span> <span class="st">&#39;Events&#39;</span><span class="op">;</span> <span class="co">// Update if your table name differs</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> AIRTABLE_ANNOUNCEMENTS_TABLE <span class="op">=</span> <span class="st">&#39;Announcements&#39;</span><span class="op">;</span> <span class="co">// Update if your table name differs</span></span></code></pre></div></li>
+<li><p><strong>Verify Airtable Base Structure</strong></p>
+<p>Ensure your Airtable base has the correct tables and fields:</p>
+<p><strong>Events Table:</strong></p>
+<ul>
+<li>Event Name (Text)</li>
+<li>Date and Time (DateTime)</li>
+<li>Description (Long Text)</li>
+<li>Chapter (Link to Chapters table)</li>
+<li>Attendance (Number)</li>
+<li>Review Period (Link to Review Periods table)</li>
+<li>Group Photo (Attachment)</li>
+<li>All Photos (URL)</li>
+<li>Email List (URL)</li>
+</ul>
+<p><strong>Announcements Table:</strong></p>
+<ul>
+<li>Title (Text)</li>
+<li>Content (Long Text)</li>
+<li>Status (Single Select: “Draft” or “Published”)</li>
+<li>Image (URL or Attachment)</li>
+<li>Chapters (Link to Chapters table)</li>
+<li>People (Link to People table)</li>
+</ul></li>
+<li><p><strong>Deploy to Web Server</strong></p>
+<p>Upload all files to your web server’s appropriate directory.</p></li>
+<li><p><strong>Test the Installation</strong></p>
+<p>Access the portal through your browser:</p>
+<ul>
+<li>Admin interface:
+<code>https://your-domain.com/admin-portal/portal.html</code></li>
+<li>Public-facing page:
+<code>https://your-domain.com/admin-portal/index.html</code></li>
+</ul></li>
+</ol>
+<h2 id="common-issues-and-solutions">Common Issues and Solutions</h2>
+<h3 id="api-authentication">API Authentication</h3>
+<p><strong>Issue</strong>: Airtable API calls failing with 401
+Unauthorized errors.</p>
+<p><strong>Solution</strong>: - Verify your Personal Access Token is
+correctly copied and has proper permissions. - Check that the token
+hasn’t expired (Airtable PATs have configurable expiration). - Ensure
+the token has access to the specific base you’re trying to access.</p>
+<h3 id="cors-restrictions">CORS Restrictions</h3>
+<p><strong>Issue</strong>: API calls blocked by Cross-Origin Resource
+Sharing policies.</p>
+<p><strong>Solution</strong>: - Airtable API should allow CORS by
+default for authenticated requests. - If hosting the application on a
+different domain than where API calls are made, ensure your server
+allows proper CORS headers. - For local development, consider using a
+CORS proxy or browser extension to bypass restrictions.</p>
+<h3 id="table-structure-mismatch">Table Structure Mismatch</h3>
+<p><strong>Issue</strong>: Data not displaying correctly or errors when
+saving records.</p>
+<p><strong>Solution</strong>: - Compare your Airtable base structure
+with the required fields listed above. - Check field names for exact
+matches (case-sensitive). - If using different field names, update the
+JavaScript to match your structure.</p>
+<h3 id="image-loading-issues">Image Loading Issues</h3>
+<p><strong>Issue</strong>: Images not displaying in the interface.</p>
+<p><strong>Solution</strong>: - Check that image URLs are accessible and
+valid. - For Airtable attachments, ensure you’re using the thumbnail
+URLs for preview. - If using relative paths for application images (like
+logo.svg), verify the path structure.</p>
+<h2 id="customization-options">Customization Options</h2>
+<h3 id="theming">Theming</h3>
+<p>To customize the appearance:</p>
+<ol type="1">
+<li><p>Locate the <code>:root</code> CSS variables at the top of each
+HTML file:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="in">:root</span> {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">--primary-yellow</span>: <span class="cn">#ffdd00</span><span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">--dark-text</span>: <span class="cn">#1a1a1a</span><span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* other variables */</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div></li>
+<li><p>Modify these variables to match your organization’s
+branding.</p></li>
+</ol>
+<h3 id="adding-new-features">Adding New Features</h3>
+<p>The code is structured to allow easy expansion:</p>
+<ol type="1">
+<li><strong>New Dashboard Widgets</strong>: Add new cards to the
+dashboard-widgets section in portal.html</li>
+<li><strong>Additional Form Fields</strong>: Extend the modal forms and
+update the corresponding JavaScript handlers</li>
+<li><strong>New Pages</strong>: Follow the pattern of the existing pages
+to add new content sections</li>
+</ol>
+<h2 id="security-considerations">Security Considerations</h2>
+<ol type="1">
+<li><strong>API Token Protection</strong>: The current implementation
+exposes the Airtable token in client-side code. Consider:
+<ul>
+<li>Using environment variables and a simple backend for API calls in
+production</li>
+<li>Implementing token-based authentication for the admin portal</li>
+<li>Setting restrictive CORS policies on your server</li>
+</ul></li>
+<li><strong>Access Control</strong>: This implementation doesn’t include
+user authentication. Consider adding:
+<ul>
+<li>Login functionality before accessing admin features</li>
+<li>Role-based permissions for different admin functions</li>
+</ul></li>
+</ol>
+<h2 id="limitations-and-known-issues">Limitations and Known Issues</h2>
+<ol type="1">
+<li><p><strong>File Uploads</strong>: The current implementation doesn’t
+support direct file uploads. It only handles URLs to images that are
+already uploaded elsewhere.</p></li>
+<li><p><strong>Mock Data</strong>: Development mock data is included as
+fallbacks. Make sure to properly connect to your Airtable instance by
+uncommenting the API calls and removing mock data references.</p></li>
+<li><p><strong>Mobile Responsiveness</strong>: While the interface is
+responsive, complex forms like the Event editor may benefit from further
+optimization for very small screens.</p></li>
+<li><p><strong>Browser Compatibility</strong>: The application uses
+modern JavaScript features and may require adjustments for older
+browsers.</p></li>
+</ol>
+<h2 id="maintenance">Maintenance</h2>
+<p>For ongoing maintenance:</p>
+<ol type="1">
+<li><p><strong>Airtable Schema Changes</strong>: If you modify your
+Airtable structure, update the corresponding JavaScript object
+mappings.</p></li>
+<li><p><strong>Token Renewal</strong>: Remember to update the Personal
+Access Token before it expires.</p></li>
+<li><p><strong>Backup</strong>: Regularly export your Airtable base to
+prevent data loss.</p></li>
+</ol>
+<h2 id="support">Support</h2>
+<p>For issues with: - <strong>Airtable API</strong>: Refer to <a
+href="https://airtable.com/developers/web/api">Airtable API
+documentation</a> - <strong>Application Code</strong>: Debug using
+browser developer tools - all API calls log errors to the console</p>
+<h2 id="future-enhancements">Future Enhancements</h2>
+<p>Consider these improvements for future versions: - Server-side API
+proxy to protect Airtable credentials - User authentication and access
+control - Direct file upload functionality - Expanded dashboard
+analytics - Email notifications for new events or announcements</p>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>proxy-implementation</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        background-color: #232629;
+        color: #7a7c7d;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d;  padding-left: 4px; }
+    div.sourceCode
+      { color: #cfcfc2; background-color: #232629; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #cfcfc2; } /* Normal */
+    code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
+    code span.an { color: #3f8058; } /* Annotation */
+    code span.at { color: #2980b9; } /* Attribute */
+    code span.bn { color: #f67400; } /* BaseN */
+    code span.bu { color: #7f8c8d; } /* BuiltIn */
+    code span.cf { color: #fdbc4b; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #3daee9; } /* Char */
+    code span.cn { color: #27aeae; font-weight: bold; } /* Constant */
+    code span.co { color: #7a7c7d; } /* Comment */
+    code span.cv { color: #7f8c8d; } /* CommentVar */
+    code span.do { color: #a43340; } /* Documentation */
+    code span.dt { color: #2980b9; } /* DataType */
+    code span.dv { color: #f67400; } /* DecVal */
+    code span.er { color: #da4453; text-decoration: underline; } /* Error */
+    code span.ex { color: #0099ff; font-weight: bold; } /* Extension */
+    code span.fl { color: #f67400; } /* Float */
+    code span.fu { color: #8e44ad; } /* Function */
+    code span.im { color: #27ae60; } /* Import */
+    code span.in { color: #c45b00; } /* Information */
+    code span.kw { color: #cfcfc2; font-weight: bold; } /* Keyword */
+    code span.op { color: #cfcfc2; } /* Operator */
+    code span.ot { color: #27ae60; } /* Other */
+    code span.pp { color: #27ae60; } /* Preprocessor */
+    code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
+    code span.sc { color: #3daee9; } /* SpecialChar */
+    code span.ss { color: #da4453; } /* SpecialString */
+    code span.st { color: #f44f4f; } /* String */
+    code span.va { color: #27aeae; } /* Variable */
+    code span.vs { color: #da4453; } /* VerbatimString */
+    code span.wa { color: #da4453; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="https://cdr2.com/pandoc.css" />
+</head>
+<body>
+<h1 id="secure-proxy-server-implementation-guide">Secure Proxy Server
+Implementation Guide</h1>
+<p>This guide explains how to set up and use the Node.js proxy server to
+securely handle Airtable API requests without exposing credentials to
+the client.</p>
+<h2 id="project-structure">Project Structure</h2>
+<pre><code>/admin-portal-proxy/
+├── server.js              # Main server file
+├── .env                   # Environment variables (keep this secure!)
+├── package.json           # Node.js dependencies
+├── public/                # Static files directory
+│   ├── index.html         # Public-facing page
+│   ├── portal.html        # Admin interface
+│   └── css/               # (optional) CSS files if extracted from HTML</code></pre>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>Node.js v14 or higher</li>
+<li>npm (Node Package Manager)</li>
+<li>Airtable account with appropriate base configuration</li>
+<li>Personal Access Token (PAT) for Airtable API access</li>
+</ul>
+<h2 id="setup-instructions">Setup Instructions</h2>
+<h3 id="install-node.js-and-npm">1. Install Node.js and npm</h3>
+<p>If you don’t have Node.js installed, download and install it from <a
+href="https://nodejs.org/">nodejs.org</a>.</p>
+<h3 id="create-project-directory-and-files">2. Create Project Directory
+and Files</h3>
+<p>Create a new directory for your project and copy the provided files:
+- <code>server.js</code> - The main server file - <code>.env</code> -
+Environment variables file - <code>package.json</code> - Node.js package
+configuration</p>
+<h3 id="install-dependencies">3. Install Dependencies</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> admin-portal-proxy</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> install</span></code></pre></div>
+<h3 id="configure-environment-variables">4. Configure Environment
+Variables</h3>
+<p>Edit the <code>.env</code> file with your Airtable credentials:</p>
+<pre><code>AIRTABLE_PERSONAL_ACCESS_TOKEN=your_personal_access_token
+AIRTABLE_BASE_ID=your_base_id
+PORT=2415</code></pre>
+<h3 id="set-up-static-files">5. Set Up Static Files</h3>
+<p>Create a <code>public</code> directory in your project folder and
+place the HTML files there:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> public</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy your HTML files to the public directory</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> path/to/your/portal.html public/</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> path/to/your/index.html public/</span></code></pre></div>
+<h3 id="update-client-side-api-calls">6. Update Client-Side API
+Calls</h3>
+<p>Modify your client-side JavaScript files to use the proxy endpoints
+instead of direct Airtable API calls. Use the provided
+<code>client-side-api.js</code> code as a reference.</p>
+<p>Key changes include: - Change the API base URL to point to your proxy
+- Remove all Airtable credentials from client-side code - Update the API
+call patterns to match the proxy endpoints</p>
+<h3 id="start-the-server">7. Start the Server</h3>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> start</span></code></pre></div>
+<p>Your server should now be running on port 2415 (or the port specified
+in your .env file).</p>
+<h2 id="proxy-endpoints">Proxy Endpoints</h2>
+<p>The proxy server provides the following endpoints that mirror the
+Airtable API:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Endpoint</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GET</td>
+<td><code>/api/:table</code></td>
+<td>Get all records from a table</td>
+</tr>
+<tr class="even">
+<td>GET</td>
+<td><code>/api/:table/:id</code></td>
+<td>Get a specific record</td>
+</tr>
+<tr class="odd">
+<td>POST</td>
+<td><code>/api/:table</code></td>
+<td>Create new record(s)</td>
+</tr>
+<tr class="even">
+<td>PATCH</td>
+<td><code>/api/:table</code></td>
+<td>Update record(s)</td>
+</tr>
+<tr class="odd">
+<td>DELETE</td>
+<td><code>/api/:table/:id</code></td>
+<td>Delete a record</td>
+</tr>
+</tbody>
+</table>
+<h2 id="security-features">Security Features</h2>
+<p>This implementation includes several security enhancements:</p>
+<ol type="1">
+<li><p><strong>API Credential Protection</strong>: Airtable credentials
+are stored server-side in the .env file and never sent to the
+client.</p></li>
+<li><p><strong>Rate Limiting</strong>: Prevents API abuse by limiting
+requests to 100 per IP address per 15-minute window.</p></li>
+<li><p><strong>Error Handling</strong>: Provides sanitized error
+responses that don’t leak sensitive information.</p></li>
+<li><p><strong>CORS</strong>: Cross-Origin Resource Sharing is enabled
+for development but can be restricted in production.</p></li>
+</ol>
+<h2 id="production-deployment-considerations">Production Deployment
+Considerations</h2>
+<p>For a production environment, consider these additional steps:</p>
+<ol type="1">
+<li><p><strong>Secure HTTPS</strong>: Use HTTPS by deploying behind a
+reverse proxy like Nginx with SSL certificates.</p></li>
+<li><p><strong>Environment Variables</strong>: Use a secure method to
+manage environment variables on your production server.</p></li>
+<li><p><strong>Process Management</strong>: Use a process manager like
+PM2 to keep the server running:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> install <span class="at">-g</span> pm2</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pm2</span> start server.js <span class="at">--name</span> admin-portal</span></code></pre></div></li>
+<li><p><strong>CORS Configuration</strong>: Restrict CORS to your
+specific domains:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Modify the CORS configuration in server.js</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>app<span class="op">.</span><span class="fu">use</span>(<span class="fu">cors</span>({</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">origin</span><span class="op">:</span> [<span class="st">&#39;https://yourdomain.com&#39;</span><span class="op">,</span> <span class="st">&#39;https://admin.yourdomain.com&#39;</span>]<span class="op">,</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">methods</span><span class="op">:</span> [<span class="st">&#39;GET&#39;</span><span class="op">,</span> <span class="st">&#39;POST&#39;</span><span class="op">,</span> <span class="st">&#39;PATCH&#39;</span><span class="op">,</span> <span class="st">&#39;DELETE&#39;</span>]<span class="op">,</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">credentials</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>}))<span class="op">;</span></span></code></pre></div></li>
+<li><p><strong>Add Authentication</strong>: This implementation doesn’t
+include user authentication. Consider adding:</p>
+<ul>
+<li>JWT-based authentication</li>
+<li>OAuth integration</li>
+<li>Session-based authentication</li>
+</ul></li>
+</ol>
+<h2 id="common-issues-and-solutions">Common Issues and Solutions</h2>
+<h3 id="cannot-connect-to-server-error">“Cannot connect to server”
+error</h3>
+<ul>
+<li>Check that the Node.js server is running</li>
+<li>Verify the port is not blocked by a firewall</li>
+<li>Ensure your client is using the correct URL for API calls</li>
+</ul>
+<h3 id="api-rate-limit-exceeded-error">“API rate limit exceeded”
+error</h3>
+<ul>
+<li>The server limits requests to prevent abuse</li>
+<li>Implement request batching on the client-side to reduce API
+calls</li>
+<li>Adjust the rate limiter configuration for higher traffic needs</li>
+</ul>
+<h3 id="database-connection-errors">Database connection errors</h3>
+<ul>
+<li>Verify your Airtable credentials in the .env file</li>
+<li>Check that your Airtable base is accessible</li>
+<li>Confirm your Personal Access Token has the correct permissions</li>
+</ul>
+<h2 id="maintenance-and-updates">Maintenance and Updates</h2>
+<h3 id="updating-airtable-token">Updating Airtable Token</h3>
+<p>If your Airtable token expires or needs to be changed:</p>
+<ol type="1">
+<li>Update the <code>AIRTABLE_PERSONAL_ACCESS_TOKEN</code> in your .env
+file</li>
+<li>Restart the Node.js server</li>
+</ol>
+<h3 id="adding-new-tables-or-fields">Adding New Tables or Fields</h3>
+<p>If you add new tables or fields to your Airtable base:</p>
+<ol type="1">
+<li>No server changes are needed - the proxy dynamically handles any
+table structure</li>
+<li>Update your client-side code to work with the new tables/fields</li>
+</ol>
+<h3 id="updating-dependencies">Updating Dependencies</h3>
+<p>Periodically update dependencies to get security fixes:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> audit</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> update</span></code></pre></div>
+<h2 id="conclusion">Conclusion</h2>
+<p>This proxy server implementation provides a secure way to access your
+Airtable data without exposing credentials in client-side code. It
+creates a clean API that can be easily consumed by your frontend
+application while adding important security features like rate limiting
+and proper error handling.</p>
+</body>
+</html>
