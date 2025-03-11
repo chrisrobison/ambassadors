@@ -943,7 +943,8 @@
         const AIRTABLE_BASE_ID = 'appwHxV0TBit0ka3F';
         const AIRTABLE_EVENTS_TABLE = 'Events';
         const AIRTABLE_ANNOUNCEMENTS_TABLE = 'Announcements';
-
+        const API_BASE_URL = 'http://localhost:2415/api';
+        
         // ====================================================
         // GENERAL UI FUNCTIONALITY
         // ====================================================
@@ -1119,25 +1120,17 @@
             ]
         };
 
-        // Fetch events from Airtable
+        // Fetch events from the proxy server
         async function fetchEvents() {
             try {
-                const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_EVENTS_TABLE}`;
-                const response = await fetch(url, {
-                    headers: {
-                        'Authorization': `Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-
+                const response = await fetch(`${API_BASE_URL}/Events`);
+                
                 if (!response.ok) {
-                    throw new Error('Failed to fetch events');
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to fetch events');
                 }
-
+                
                 return await response.json();
-
-                // For demonstration, return mock data
-                // return mockEvents;
             } catch (error) {
                 showAlert(error.message, 'danger');
                 return { records: [] };
@@ -1147,40 +1140,46 @@
         // Create a new event or update existing one
         async function saveEvent(eventData) {
             const isNewEvent = !eventData.id;
-
+            
             try {
-                const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_EVENTS_TABLE}`;
-                const method = isNewEvent ? 'POST' : 'PATCH';
-                const body = isNewEvent
-                    ? JSON.stringify({ records: [{ fields: eventData }] })
-                    : JSON.stringify({
-                        records: [{
-                            id: eventData.id,
-                            fields: eventData.fields
-                        }]
+                let response;
+                
+                if (isNewEvent) {
+                    // Create new event
+                    response = await fetch(`${API_BASE_URL}/Events`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ records: [{ fields: eventData.fields }] })
                     });
-
-                const response = await fetch(url, {
-                    method: method,
-                    headers: {
-                        'Authorization': `Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: body
-                });
-
-                if (!response.ok) {
-                    throw new Error('Failed to save event');
+                } else {
+                    // Update existing event
+                    response = await fetch(`${API_BASE_URL}/Events`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ 
+                            records: [{ 
+                                id: eventData.id, 
+                                fields: eventData.fields 
+                            }] 
+                        })
+                    });
                 }
-
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to save event');
+                }
+                
                 const data = await response.json();
-                return data;
-
-                // For demonstration, simulate success
-                // return {
-                //     success: true,
-                //     message: isNewEvent ? 'Event created successfully.' : 'Event updated successfully.'
-                // };
+                return {
+                    success: true,
+                    message: isNewEvent ? 'Event created successfully.' : 'Event updated successfully.',
+                    data
+                };
             } catch (error) {
                 showAlert(error.message, 'danger');
                 return { success: false };
@@ -1190,33 +1189,116 @@
         // Delete an event
         async function deleteEvent(id) {
             try {
-                // In a real application, use this:
-                const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_EVENTS_TABLE}/${id}`;
-                const response = await fetch(url, {
-                    method: 'DELETE',
-                    headers: {
-                        'Authorization': `Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
-                        'Content-Type': 'application/json'
-                    }
+                const response = await fetch(`${API_BASE_URL}/Events/${id}`, {
+                    method: 'DELETE'
                 });
-
+                
                 if (!response.ok) {
-                    throw new Error('Failed to delete event');
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to delete event');
                 }
-
-                return await response.json();
-
-                // For demonstration, simulate success
-                // return {
-                //     success: true,
-                //     message: 'Event deleted successfully.'
-                // };
+                
+                return {
+                    success: true,
+                    message: 'Event deleted successfully.'
+                };
             } catch (error) {
                 showAlert(error.message, 'danger');
                 return { success: false };
             }
         }
 
+        // ====================================================
+        // ANNOUNCEMENTS API FUNCTIONS
+        // ====================================================
+
+        // Fetch announcements from the proxy server
+        async function fetchAnnouncements() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/Announcements`);
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to fetch announcements');
+                }
+                
+                return await response.json();
+            } catch (error) {
+                showAlert(error.message, 'danger');
+                return { records: [] };
+            }
+        }
+
+        // Create a new announcement or update existing one
+        async function saveAnnouncement(announcementData) {
+            const isNewAnnouncement = !announcementData.id;
+            
+            try {
+                let response;
+                
+                if (isNewAnnouncement) {
+                    // Create new announcement
+                    response = await fetch(`${API_BASE_URL}/Announcements`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ records: [{ fields: announcementData.fields }] })
+                    });
+                } else {
+                    // Update existing announcement
+                    response = await fetch(`${API_BASE_URL}/Announcements`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ 
+                            records: [{ 
+                                id: announcementData.id, 
+                                fields: announcementData.fields 
+                            }] 
+                        })
+                    });
+                }
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to save announcement');
+                }
+                
+                const data = await response.json();
+                return {
+                    success: true,
+                    message: isNewAnnouncement ? 'Announcement created successfully.' : 'Announcement updated successfully.',
+                    data
+                };
+            } catch (error) {
+                showAlert(error.message, 'danger');
+                return { success: false };
+            }
+        }
+
+        // Delete an announcement
+        async function deleteAnnouncement(id) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/Announcements/${id}`, {
+                    method: 'DELETE'
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to delete announcement');
+                }
+                
+                return {
+                    success: true,
+                    message: 'Announcement deleted successfully.'
+                };
+            } catch (error) {
+                showAlert(error.message, 'danger');
+                return { success: false };
+            }
+        }
         // Format date for display
         function formatDate(dateString) {
             const options = {

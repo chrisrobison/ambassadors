@@ -295,6 +295,7 @@
         const AIRTABLE_PERSONAL_ACCESS_TOKEN = 'patMjZbsaWTx0F7Xi.fcb10546df8314407ed9dab43e4360246fdb4ac69c9c39648b995589dda10c7d';
         const AIRTABLE_BASE_ID = 'appwHxV0TBit0ka3F';
         const AIRTABLE_TABLE_NAME = 'Events'; // Replace with your table name
+        const API_BASE_URL = 'http://localhost:2415/api';
         //const AIRTABLE_WORKSPACE_ID = 'YOUR_WORKSPACE_ID'; // Optional, if needed for shared workspaces
         
         // Sample data based on your Airtable structure
@@ -343,6 +344,41 @@
             ]
         };
         */
+
+        // Fetch events from the proxy server
+        async function fetchEvents() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/Events`);
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to fetch events');
+                }
+
+                return await response.json();
+            } catch (error) {
+                showAlert(error.message, 'danger');
+                return { records: [] };
+            }
+        }
+
+        // Fetch announcements from the proxy server
+        async function fetchAnnouncements() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/Announcements`);
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to fetch announcements');
+                }
+
+                return await response.json();
+            } catch (error) {
+                showAlert(error.message, 'danger');
+                return { records: [] };
+            }
+        }
+
         // Function to fetch events from Airtable
         // This is commented out since we're using mock data
         async function fetchEventsFromAirtable() {
