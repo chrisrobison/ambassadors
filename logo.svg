@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 872.5018 869.7995" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <filter id="filter-0" bx:pinned="true" primitiveUnits="objectBoundingBox">
+      <feTurbulence result="turbulence-0" baseFrequency="0.02" type="fractalNoise" numOctaves="4" seed="80"></feTurbulence>
+      <feDisplacementMap result="displacement-map-0" in="SourceGraphic" in2="turbulence-0" scale="0.25"></feDisplacementMap>
+      <feMerge result="merge-0">
+        <feMergeNode in="displacement-map-0"></feMergeNode>
+      </feMerge>
+    </filter>
+  </defs>
+  <g style="transform-origin: -1075.8px -25.744px;" transform="matrix(1.096865, 0.001153, -0.001149, 1.093209, 1512.050948, 460.643752)">
+    <ellipse style="stroke-width: 1.48px; filter: url(#filter-0);" cx="-1075.8" cy="-25.744" rx="369.987" ry="369.987"></ellipse>
+    <ellipse style="stroke-width: 1.2513;" cx="-1074.9" cy="-26.972" rx="312.833" ry="312.833"></ellipse>
+  </g>
+  <g style="transform-origin: -1075.8px -25.744px;" transform="matrix(0.959516, -0.281653, 0.281653, 0.959516, 1520.024581, 443.470472)">
+    <ellipse style="stroke-width: 1.48px;" cx="-1075.8" cy="-25.744" rx="369.987" ry="369.987"></ellipse>
+    <ellipse style="stroke-width: 1.3362; fill: rgb(255, 255, 255);" cx="-1075.4" cy="-27.589" rx="334.06" ry="334.06"></ellipse>
+    <ellipse style="stroke-width: 1.2513;" cx="-1074.9" cy="-26.972" rx="312.833" ry="312.833"></ellipse>
+    <rect x="-1393.2" y="-97.035" width="638.647" height="162.43" style="fill: rgb(255, 255, 255);"></rect>
+    <text style="font-family: Impact; font-size: 102px; letter-spacing: 7.6px; white-space: pre; text-decoration: none solid rgba(255, 255, 255, 0.9);" transform="matrix(0.880667, 0, 0, 1.271462, -188.441351, 25.860585)"><tspan x="-1317.5" y="0.7923">AMBASSADOR</tspan><tspan x="-1317.5" dy="1em">​</tspan><tspan x="-1317.5" dy="1em">​</tspan><tspan x="-1317.5" dy="1em">​</tspan></text>
+    <text style="fill: rgb(255, 255, 255); font-family: Cambria; font-size: 38px; font-style: italic; white-space: pre; text-decoration: none solid rgba(255, 255, 255, 0.9);" transform="matrix(1, 0, 0, 1, -36.916066, -35.070291)"><tspan x="-1247.4" y="168.76">Official Stellar Ambassador</tspan><tspan x="-1247.4" dy="1em">​</tspan></text>
+    <g transform="matrix(0.872657, 0, 0, 0.872657, -163.445562, -19.993437)">
+      <text style="fill: rgb(255, 255, 255); font-family: Arial; font-size: 56px; white-space: pre; text-decoration: none solid rgba(255, 255, 255, 0.9);" transform="matrix(1, 0, 0, 1, 72.360407, 1.779354)"><tspan x="-1177.3" y="-141.33">Stellar</tspan><tspan x="-1177.3" dy="1em">​</tspan></text>
+      <g transform="matrix(0.989264, 0.146141, -0.146141, 0.989264, -1622.719775, -203.285895)" style="transform-origin: 467.467px 41.5925px;">
+        <path style="stroke: rgb(0, 0, 0); stroke-width: 0.25px; fill: rgb(255, 255, 255);" d="M 437.9484 61.1492 L 437.0011 54.4646 L 441.1461 51.3855 C 439.9648 49.082 436.0536 30.5422 449.6728 19.6468 C 463.292 8.7514 478.6192 14.5531 479.4642 16.3307 L 475.1349 19.7652 C 466.8334 17.7646 457.9845 19.5278 452.752 24.5023 C 446.7942 30.1663 443.8785 42.5603 446.8831 47.1879 L 495.1492 10.1725 L 495.7414 17.4492 L 437.9484 61.1492 Z"></path>
+        <path style="stroke: rgb(0, 0, 0); stroke-width: 0.25px; fill: rgb(255, 255, 255); transform-origin: 468.562px 47.5241px;" d="M 496.985 22.0358 L 497.932 28.7204 L 493.787 31.7995 C 494.968 34.103 498.879 52.6428 485.26 63.5382 C 471.641 74.4336 456.314 68.6319 455.469 66.8543 L 459.798 63.4198 C 468.1 65.4204 476.948 63.6572 482.181 58.6827 C 488.139 53.0187 491.054 40.6247 488.05 35.9971 L 439.784 73.0125 L 439.192 65.7358 L 496.985 22.0358 Z"></path>
+      </g>
+    </g>
+  </g>
+</svg>

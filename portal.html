@@ -212,11 +212,13 @@
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             overflow: hidden;
+            margin-bottom: 30px;
         }
         
         .card-header {
             padding: 15px 20px;
             border-bottom: 1px solid var(--gray-light);
+            background-color: var(--gray-light);
         }
         
         .card-title {
@@ -243,44 +245,6 @@
             color: var(--gray);
             font-size: 14px;
             text-transform: uppercase;
-        }
-        
-        /* Mobile Responsiveness */
-        @media (max-width: 992px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-            
-            .sidebar-expanded {
-                transform: translateX(0);
-            }
-            
-            .main-content {
-                margin-left: 0;
-            }
-            
-            .menu-toggle {
-                display: block;
-            }
-            
-            .sidebar-overlay {
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background-color: rgba(0, 0, 0, 0.5);
-                z-index: 999;
-                display: none;
-            }
-            
-            .sidebar-overlay.active {
-                display: block;
-            }
-            
-            .dashboard-widgets {
-                grid-template-columns: 1fr;
-            }
         }
         
         /* Page Content - Specific to each page */
@@ -313,6 +277,24 @@
             background-color: #e6c700;
         }
         
+        .btn-secondary {
+            background-color: var(--gray);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger-red);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        
         .action-btns {
             display: flex;
             justify-content: space-between;
@@ -320,25 +302,25 @@
         }
         
         /* Table Styles */
-        .data-table {
+        .data-table, .events-table, .announcements-table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
         }
         
-        .data-table th,
-        .data-table td {
+        .data-table th, .events-table th, .announcements-table th,
+        .data-table td, .events-table td, .announcements-table td {
             padding: 12px 15px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
         
-        .data-table th {
+        .data-table th, .events-table th, .announcements-table th {
             background-color: var(--gray-light);
             font-weight: bold;
         }
         
-        .data-table tr:hover {
+        .data-table tr:hover, .events-table tr:hover, .announcements-table tr:hover {
             background-color: var(--gray-lighter);
         }
         
@@ -400,6 +382,150 @@
             100% { transform: rotate(360deg); }
         }
         
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        select.form-control {
+            height: 42px;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            flex-grow: 1;
+            max-height: 70vh;
+        }
+        
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #ddd;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .close {
+            cursor: pointer;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .close:hover {
+            color: var(--danger-red);
+        }
+        
+        /* Alerts */
+        .alert {
+            padding: 12px 20px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .alert-success {
+            background-color: rgba(40, 167, 69, 0.2);
+            border: 1px solid var(--success-green);
+            color: #155724;
+        }
+        
+        .alert-danger {
+            background-color: rgba(220, 53, 69, 0.2);
+            border: 1px solid var(--danger-red);
+            color: #721c24;
+        }
+        
+        /* Tabs for event form */
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-bottom: none;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            margin-right: 5px;
+            position: relative;
+            top: 1px;
+        }
+        
+        .tab.active {
+            background-color: white;
+            border-color: #ddd;
+            border-bottom-color: white;
+            font-weight: bold;
+        }
+        
+        /* Image preview */
+        .image-preview {
+            margin-top: 10px;
+            max-width: 200px;
+            max-height: 200px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: none;
+        }
+        
         /* Footer */
         .footer {
             background-color: white;
@@ -408,6 +534,54 @@
             border-top: 1px solid var(--gray-light);
             font-size: 14px;
             color: var(--gray);
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar-expanded {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .sidebar-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+                display: none;
+            }
+            
+            .sidebar-overlay.active {
+                display: block;
+            }
+            
+            .dashboard-widgets {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .truncate {
+                max-width: 150px;
+            }
         }
     </style>
 </head>
@@ -480,6 +654,10 @@
             </div>
         </header>
         
+        <!-- Alerts -->
+        <div id="alert-success" class="alert alert-success"></div>
+        <div id="alert-danger" class="alert alert-danger"></div>
+        
         <!-- Content Area -->
         <main class="content">
             <!-- Dashboard Page -->
@@ -488,17 +666,17 @@
                 
                 <div class="dashboard-widgets">
                     <div class="card stat-card">
-                        <div class="stat-value">12</div>
+                        <div class="stat-value" id="total-events-stat">12</div>
                         <div class="stat-label">Total Events</div>
                     </div>
                     
                     <div class="card stat-card">
-                        <div class="stat-value">5</div>
+                        <div class="stat-value" id="upcoming-events-stat">5</div>
                         <div class="stat-label">Upcoming Events</div>
                     </div>
                     
                     <div class="card stat-card">
-                        <div class="stat-value">8</div>
+                        <div class="stat-value" id="total-announcements-stat">8</div>
                         <div class="stat-label">Announcements</div>
                     </div>
                 </div>
@@ -508,7 +686,7 @@
                         <h2 class="card-title">Recent Activity</h2>
                     </div>
                     <div class="card-body">
-                        <ul>
+                        <ul id="recent-activity-list">
                             <li>New event created: <strong>Web3 Developer Workshop</strong></li>
                             <li>Announcement updated: <strong>Our New Announcement!</strong></li>
                             <li>Event edited: <strong>Blockchain for Business Leaders</strong></li>
@@ -533,49 +711,23 @@
                             <div class="spinner"></div>
                             <p>Loading events...</p>
                         </div>
-                        <table class="data-table" id="events-table">
-                            <thead>
-                                <tr>
-                                    <th>Event Name</th>
-                                    <th>Date</th>
-                                    <th>Description</th>
-                                    <th>Attendance</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="truncate">Stellar SP Meetup: A Nova Era Blockchain</td>
-                                    <td>Feb 25, 2025, 7:00 PM</td>
-                                    <td class="truncate">After an incredible first edition, we're bringing the second edition of our Tokenization & Blockchain event...</td>
-                                    <td>30</td>
-                                    <td class="actions">
-                                        <button class="btn btn-secondary action-btn">Edit</button>
-                                        <button class="btn btn-danger action-btn">Delete</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="truncate">Web3 Developer Workshop</td>
-                                    <td>Mar 15, 2025, 2:00 PM</td>
-                                    <td class="truncate">A hands-on workshop for developers looking to build on blockchain technologies.</td>
-                                    <td>25</td>
-                                    <td class="actions">
-                                        <button class="btn btn-secondary action-btn">Edit</button>
-                                        <button class="btn btn-danger action-btn">Delete</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="truncate">Blockchain for Business Leaders</td>
-                                    <td>Mar 28, 2025, 10:00 AM</td>
-                                    <td class="truncate">An executive briefing on how blockchain technology is transforming industries.</td>
-                                    <td>45</td>
-                                    <td class="actions">
-                                        <button class="btn btn-secondary action-btn">Edit</button>
-                                        <button class="btn btn-danger action-btn">Delete</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div id="events-list">
+                            <table class="events-table">
+                                <thead>
+                                    <tr>
+                                        <th>Event Name</th>
+                                        <th>Date and Time</th>
+                                        <th>Description</th>
+                                        <th>Chapter</th>
+                                        <th>Attendance</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="events-table-body">
+                                    <!-- Events will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -596,55 +748,22 @@
                             <div class="spinner"></div>
                             <p>Loading announcements...</p>
                         </div>
-                        <table class="data-table" id="announcements-table">
-                            <thead>
-                                <tr>
-                                    <th>Title</th>
-                                    <th>Content</th>
-                                    <th>Status</th>
-                                    <th>Image</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="truncate">Our New Announcement!</td>
-                                    <td class="truncate">This is an announcement of the new announcement system</td>
-                                    <td>
-                                        <span class="status-badge status-draft">Draft</span>
-                                    </td>
-                                    <td><span style="color: green;">✓</span></td>
-                                    <td class="actions">
-                                        <button class="btn btn-secondary action-btn">Edit</button>
-                                        <button class="btn btn-danger action-btn">Delete</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="truncate">Upcoming Community Event</td>
-                                    <td class="truncate">Join us for our monthly community gathering where we'll discuss new initiatives.</td>
-                                    <td>
-                                        <span class="status-badge status-published">Published</span>
-                                    </td>
-                                    <td><span style="color: green;">✓</span></td>
-                                    <td class="actions">
-                                        <button class="btn btn-secondary action-btn">Edit</button>
-                                        <button class="btn btn-danger action-btn">Delete</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="truncate">New Partnership Announcement</td>
-                                    <td class="truncate">We're excited to announce our new partnership with XYZ Organization.</td>
-                                    <td>
-                                        <span class="status-badge status-draft">Draft</span>
-                                    </td>
-                                    <td><span style="color: green;">✓</span></td>
-                                    <td class="actions">
-                                        <button class="btn btn-secondary action-btn">Edit</button>
-                                        <button class="btn btn-danger action-btn">Delete</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div id="announcements-list">
+                            <table class="announcements-table">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Content</th>
+                                        <th>Status</th>
+                                        <th>Image</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="announcements-table-body">
+                                    <!-- Announcements will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -656,40 +775,214 @@
         </footer>
     </div>
     
+    <!-- MODAL COMPONENTS FROM ANNOUNCEMENTS PAGE -->
+    <!-- Add/Edit Announcement Modal -->
+    <div id="announcement-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="announcement-modal-title">New Announcement</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="announcement-form">
+                    <input type="hidden" id="announcement-id">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" id="title" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="content">Content</label>
+                        <textarea id="content" class="form-control" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status" class="form-control" required>
+                            <option value="Draft">Draft</option>
+                            <option value="Published">Published</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Image URL</label>
+                        <input type="text" id="image" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="chapters">Chapters (Comma separated IDs)</label>
+                        <input type="text" id="chapters" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="people">People (Comma separated IDs)</label>
+                        <input type="text" id="people" class="form-control">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="announcement-cancel-btn">Cancel</button>
+                <button type="button" class="btn btn-primary" id="announcement-save-btn">Save</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Announcement Confirmation Modal -->
+    <div id="announcement-delete-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Confirm Delete</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this announcement? This action cannot be undone.</p>
+                <input type="hidden" id="delete-announcement-id">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="announcement-delete-cancel-btn">Cancel</button>
+                <button type="button" class="btn btn-danger" id="announcement-confirm-delete-btn">Delete</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- MODAL COMPONENTS FROM EVENTS PAGE -->
+    <!-- Add/Edit Event Modal -->
+    <div id="event-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="event-modal-title">New Event</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="tabs">
+                    <div class="tab active" data-tab="basic-info">Basic Info</div>
+                    <div class="tab" data-tab="description">Description</div>
+                    <div class="tab" data-tab="media">Media</div>
+                    <div class="tab" data-tab="links">Links & Resources</div>
+                </div>
+                <form id="event-form">
+                    <input type="hidden" id="event-id">
+                    
+                    <!-- Basic Info Tab -->
+                    <div class="tab-content" id="basic-info">
+                        <div class="form-group">
+                            <label for="event-name">Event Name *</label>
+                            <input type="text" id="event-name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="date-time">Date and Time *</label>
+                            <input type="datetime-local" id="date-time" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="chapter">Chapter</label>
+                            <input type="text" id="chapter" class="form-control" placeholder="Chapter ID(s), comma separated">
+                        </div>
+                        <div class="form-group">
+                            <label for="attendance">Attendance</label>
+                            <input type="number" id="attendance" class="form-control" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="review-period">Review Period</label>
+                            <input type="text" id="review-period" class="form-control" placeholder="Review Period ID">
+                        </div>
+                    </div>
+                    
+                    <!-- Description Tab -->
+                    <div class="tab-content" id="description" style="display: none;">
+                        <div class="form-group">
+                            <label for="event-description">Description *</label>
+                            <textarea id="event-description" class="form-control" required></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Media Tab -->
+                    <div class="tab-content" id="media" style="display: none;">
+                        <div class="form-group">
+                            <label for="group-photo">Group Photo URL</label>
+                            <input type="text" id="group-photo" class="form-control">
+                            <img id="photo-preview" class="image-preview" src="" alt="Group photo preview">
+                        </div>
+                        <div class="form-group">
+                            <label for="all-photos">All Photos Link</label>
+                            <input type="text" id="all-photos" class="form-control" placeholder="URL to photo gallery">
+                        </div>
+                    </div>
+                    
+                    <!-- Links Tab -->
+                    <div class="tab-content" id="links" style="display: none;">
+                        <div class="form-group">
+                            <label for="email-list">Email List</label>
+                            <input type="text" id="email-list" class="form-control" placeholder="URL to email list">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="event-cancel-btn">Cancel</button>
+                <button type="button" class="btn btn-primary" id="event-save-btn">Save Event</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Event Confirmation Modal -->
+    <div id="event-delete-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Confirm Delete</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this event? This action cannot be undone.</p>
+                <input type="hidden" id="delete-event-id">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="event-delete-cancel-btn">Cancel</button>
+                <button type="button" class="btn btn-danger" id="event-confirm-delete-btn">Delete</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // DOM Elements
+        // Configuration - Replace with your actual Airtable credentials
+        const AIRTABLE_PERSONAL_ACCESS_TOKEN = 'patMjZbsaWTx0F7Xi.fcb10546df8314407ed9dab43e4360246fdb4ac69c9c39648b995589dda10c7d';
+        const AIRTABLE_BASE_ID = 'appwHxV0TBit0ka3F';
+        const AIRTABLE_EVENTS_TABLE = 'Events';
+        const AIRTABLE_ANNOUNCEMENTS_TABLE = 'Announcements';
+
+        // ====================================================
+        // GENERAL UI FUNCTIONALITY
+        // ====================================================
+
+        // DOM Elements for Portal UI
         const sidebar = document.querySelector('.sidebar');
         const menuToggle = document.querySelector('.menu-toggle');
         const sidebarOverlay = document.querySelector('.sidebar-overlay');
         const mainContent = document.querySelector('.main-content');
         const headerTitle = document.querySelector('.header-title');
         const menuLinks = document.querySelectorAll('.sidebar-menu a');
-        
+        const alertSuccess = document.getElementById('alert-success');
+        const alertDanger = document.getElementById('alert-danger');
+
         // Menu Toggle
         menuToggle.addEventListener('click', () => {
             sidebar.classList.toggle('sidebar-expanded');
             sidebarOverlay.classList.toggle('active');
         });
-        
+
         // Close sidebar when clicking overlay (on mobile)
         sidebarOverlay.addEventListener('click', () => {
             sidebar.classList.remove('sidebar-expanded');
             sidebarOverlay.classList.remove('active');
         });
-        
+
         // Function to show specific page content
         function showPage(pageId) {
             // Update header title
             headerTitle.textContent = pageId.charAt(0).toUpperCase() + pageId.slice(1);
-            
+
             // Hide all page contents
             document.getElementById('dashboard-content').style.display = 'none';
             document.getElementById('events-content').style.display = 'none';
             document.getElementById('announcements-content').style.display = 'none';
-            
+
             // Show selected page content
             document.getElementById(`${pageId}-content`).style.display = 'block';
-            
+
             // Update active menu item
             menuLinks.forEach(link => {
                 link.classList.remove('active');
@@ -697,14 +990,989 @@
                     link.classList.add('active');
                 }
             });
-            
+
+            // Load data for the selected page
+            if (pageId === 'events') {
+                loadEvents();
+            } else if (pageId === 'announcements') {
+                loadAnnouncements();
+            } else if (pageId === 'dashboard') {
+                updateDashboardStats();
+            }
+
             // Close sidebar on mobile after navigation
             if (window.innerWidth < 992) {
                 sidebar.classList.remove('sidebar-expanded');
                 sidebarOverlay.classList.remove('active');
             }
         }
-        
+
+        // Show alert message
+        function showAlert(message, type) {
+            const alert = type === 'success' ? alertSuccess : alertDanger;
+            alert.textContent = message;
+            alert.style.display = 'block';
+
+            // Hide after 3 seconds
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 3000);
+        }
+
+        // ====================================================
+        // EVENTS FUNCTIONALITY
+        // ====================================================
+
+        // DOM Elements for Events
+        const eventsTableBody = document.getElementById('events-table-body');
+        const eventModal = document.getElementById('event-modal');
+        const eventDeleteModal = document.getElementById('event-delete-modal');
+        const eventModalTitle = document.getElementById('event-modal-title');
+        const eventForm = document.getElementById('event-form');
+        const newEventBtn = document.getElementById('new-event-btn');
+        const eventCancelBtn = document.getElementById('event-cancel-btn');
+        const eventSaveBtn = document.getElementById('event-save-btn');
+        const eventDeleteBtn = document.getElementById('event-confirm-delete-btn');
+        const eventDeleteCancelBtn = document.getElementById('event-delete-cancel-btn');
+        const eventsLoadingIndicator = document.getElementById('events-loading');
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const photoPreview = document.getElementById('photo-preview');
+
+        // Form fields for Events
+        const eventIdField = document.getElementById('event-id');
+        const eventNameField = document.getElementById('event-name');
+        const dateTimeField = document.getElementById('date-time');
+        const chapterField = document.getElementById('chapter');
+        const attendanceField = document.getElementById('attendance');
+        const reviewPeriodField = document.getElementById('review-period');
+        const descriptionField = document.getElementById('event-description');
+        const groupPhotoField = document.getElementById('group-photo');
+        const allPhotosField = document.getElementById('all-photos');
+        const emailListField = document.getElementById('email-list');
+        const deleteEventIdField = document.getElementById('delete-event-id');
+
+        // Mock data for events demonstration
+        const mockEvents = {
+            "records": [
+                {
+                    "id": "recxUpa6A5x7dR54a",
+                    "createdTime": "2025-03-08T22:05:24.000Z",
+                    "fields": {
+                        "Event Name": "Stellar SP Meetup: A Nova Era Blockchain",
+                        "Chapter": [
+                            "recwuvlJjgtRTmU7y"
+                        ],
+                        "Date and Time": "2025-02-25T19:00:00.000Z",
+                        "Description": "After an incredible first edition, we're bringing the second edition of our Tokenization & Blockchain event to the heart of São Paulo, one of the busiest and most influential financial centers in Latin America.  Join us to dive even deeper into Stellar's blockchain capabilities, explore the latest in tokenization, and discover real-world applications that are transforming industries. Whether you're a developer, entrepreneur, or blockchain enthusiast, this is your chance to network, learn, and be part of the future of digital finance.",
+                        "Group Photo": [
+                            {
+                                "id": "attI4Waly5w2eEE8I",
+                                "width": 6960,
+                                "height": 4640,
+                                "url": "https://v5.airtableusercontent.com/v3/u/38/38/1741579200000/j3d8hI-ajl-UlcRxdylmzg/sD9FN2CH29J8Zc0fCeTnWhPUTp6S25hFMYsqsEme4URanRqYDtRKxrhTDS8wrNHwnXZ7oQvXhWtW08otTFnHaBokPaitlMkwbG32hytQQLBkJhXll95-FTix3DE89UmC7mi8sIlEwAFEu1LyX2uW5ei8pqKILVKSHyFWzZyJKM4/_veLNGRJcNAavNpiU6W9Zh0V2dT823pntn2vdBHoEyM",
+                                "thumbnails": {
+                                    "large": {
+                                        "url": "https://v5.airtableusercontent.com/v3/u/38/38/1741579200000/m33DNzCdiTdlggWZDVmFFw/cO_b7CnDnf7t-uZPVf7v19IORjgO9O_x1z0lHmS7EMGCleHBQDQdqOpxWjks-vjR2dDni7QIxj7sqsFpaU1Zrwp_ezfLxPfIztCWgeuL7UTyYmAnML-4tgRS-j7jVJ8wd-kl9ANLCO7UdX_v7Zx-QQ/iGO59DBd77YCURmxvKYJ1Vbfo1MHw2CPK3D-C7hSHkA"
+                                    }
+                                }
+                            }
+                        ],
+                        "Email List": "https://docs.google.com/spreadsheets/d/1q-3OpPRtwFWx86fjEiWU-iW2WaoUKqhU/edit?gid=995454575#gid=995454575",
+                        "Review Period": [
+                            "recrxrShWB7tftV6H"
+                        ],
+                        "Attendance": "30",
+                        "All Photos": "https://drive.google.com/drive/folders/1Adw8lxaGnfbr2tu4sOPNshnM2Q-jnaNm"
+                    }
+                },
+                {
+                    "id": "rec123456789",
+                    "createdTime": "2025-03-09T15:20:00.000Z",
+                    "fields": {
+                        "Event Name": "Web3 Developer Workshop",
+                        "Chapter": [
+                            "recwuvlJjgtRTmU7y"
+                        ],
+                        "Date and Time": "2025-03-15T14:00:00.000Z",
+                        "Description": "A hands-on workshop for developers looking to build on blockchain technologies. Learn about smart contracts, dApps, and more.",
+                        "Attendance": "25",
+                        "Review Period": [
+                            "recrxrShWB7tftV6H"
+                        ]
+                    }
+                },
+                {
+                    "id": "rec987654321",
+                    "createdTime": "2025-03-10T08:10:00.000Z",
+                    "fields": {
+                        "Event Name": "Blockchain for Business Leaders",
+                        "Chapter": [
+                            "recLVDrWB7lvOZEeV"
+                        ],
+                        "Date and Time": "2025-03-28T10:00:00.000Z",
+                        "Description": "An executive briefing on how blockchain technology is transforming industries and what business leaders need to know.",
+                        "Email List": "https://docs.google.com/spreadsheets/d/abc123/edit",
+                        "Attendance": "45"
+                    }
+                }
+            ]
+        };
+
+        // Fetch events from Airtable
+        async function fetchEvents() {
+            try {
+                const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_EVENTS_TABLE}`;
+                const response = await fetch(url, {
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch events');
+                }
+
+                return await response.json();
+
+                // For demonstration, return mock data
+                // return mockEvents;
+            } catch (error) {
+                showAlert(error.message, 'danger');
+                return { records: [] };
+            }
+        }
+
+        // Create a new event or update existing one
+        async function saveEvent(eventData) {
+            const isNewEvent = !eventData.id;
+
+            try {
+                const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_EVENTS_TABLE}`;
+                const method = isNewEvent ? 'POST' : 'PATCH';
+                const body = isNewEvent
+                    ? JSON.stringify({ records: [{ fields: eventData }] })
+                    : JSON.stringify({
+                        records: [{
+                            id: eventData.id,
+                            fields: eventData.fields
+                        }]
+                    });
+
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: body
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to save event');
+                }
+
+                const data = await response.json();
+                return data;
+
+                // For demonstration, simulate success
+                // return {
+                //     success: true,
+                //     message: isNewEvent ? 'Event created successfully.' : 'Event updated successfully.'
+                // };
+            } catch (error) {
+                showAlert(error.message, 'danger');
+                return { success: false };
+            }
+        }
+
+        // Delete an event
+        async function deleteEvent(id) {
+            try {
+                // In a real application, use this:
+                const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_EVENTS_TABLE}/${id}`;
+                const response = await fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to delete event');
+                }
+
+                return await response.json();
+
+                // For demonstration, simulate success
+                // return {
+                //     success: true,
+                //     message: 'Event deleted successfully.'
+                // };
+            } catch (error) {
+                showAlert(error.message, 'danger');
+                return { success: false };
+            }
+        }
+
+        // Format date for display
+        function formatDate(dateString) {
+            const options = {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            return new Date(dateString).toLocaleString('en-US', options);
+        }
+
+        // Format date for input field
+        function formatDateForInput(dateString) {
+            const date = new Date(dateString);
+            return date.toISOString().slice(0, 16); // Format: YYYY-MM-DDTHH:MM
+        }
+
+        // Display events in the table
+        function displayEvents(events) {
+            eventsTableBody.innerHTML = '';
+
+            const validEvents = events.records.filter(record =>
+                record.fields && Object.keys(record.fields).length > 0
+            );
+
+            if (validEvents.length === 0) {
+                const emptyRow = document.createElement('tr');
+                emptyRow.innerHTML = '<td colspan="6" style="text-align: center;">No events found.</td>';
+                eventsTableBody.appendChild(emptyRow);
+                return;
+            }
+
+            validEvents.forEach(event => {
+                const row = document.createElement('tr');
+
+                const eventName = event.fields['Event Name'] || 'Untitled Event';
+                const dateTime = event.fields['Date and Time'] ? formatDate(event.fields['Date and Time']) : 'TBD';
+                const description = event.fields['Description'] || 'No description';
+                const chapter = event.fields['Chapter'] ? event.fields['Chapter'].join(', ') : '-';
+                const attendance = event.fields['Attendance'] || '-';
+
+                row.innerHTML = `
+                    <td class="truncate">${eventName}</td>
+                    <td>${dateTime}</td>
+                    <td class="truncate">${description}</td>
+                    <td>${chapter}</td>
+                    <td>${attendance}</td>
+                    <td class="actions">
+                        <button class="btn btn-secondary action-btn edit-event-btn" data-id="${event.id}">Edit</button>
+                        <button class="btn btn-danger action-btn delete-event-btn" data-id="${event.id}">Delete</button>
+                    </td>
+                `;
+
+                eventsTableBody.appendChild(row);
+            });
+
+            // Add edit and delete event listeners
+            document.querySelectorAll('.edit-event-btn').forEach(button => {
+                button.addEventListener('click', (e) => openEditEventModal(e.target.dataset.id));
+            });
+
+            document.querySelectorAll('.delete-event-btn').forEach(button => {
+                button.addEventListener('click', (e) => openDeleteEventModal(e.target.dataset.id));
+            });
+        }
+
+        // Switch tab
+        function switchTab(tabId) {
+            // Hide all tab contents
+            tabContents.forEach(content => {
+                content.style.display = 'none';
+            });
+
+            // Remove active class from all tabs
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab content and mark tab as active
+            document.getElementById(tabId).style.display = 'block';
+            document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
+        }
+
+        // Open the modal for a new event
+        function openNewEventModal() {
+            eventModalTitle.textContent = 'New Event';
+            eventForm.reset();
+            eventIdField.value = '';
+            photoPreview.style.display = 'none';
+            switchTab('basic-info');
+            eventModal.style.display = 'flex';
+        }
+
+        // Open the modal for editing an event
+        function openEditEventModal(id) {
+            const event = mockEvents.records.find(record => record.id === id);
+
+            if (!event) {
+                showAlert('Event not found.', 'danger');
+                return;
+            }
+
+            eventModalTitle.textContent = 'Edit Event';
+            eventIdField.value = event.id;
+
+            // Set Basic Info tab fields
+            eventNameField.value = event.fields['Event Name'] || '';
+            if (event.fields['Date and Time']) {
+                dateTimeField.value = formatDateForInput(event.fields['Date and Time']);
+            }
+            chapterField.value = event.fields['Chapter'] ? event.fields['Chapter'].join(',') : '';
+            attendanceField.value = event.fields['Attendance'] || '';
+            reviewPeriodField.value = event.fields['Review Period'] ? event.fields['Review Period'].join(',') : '';
+
+            // Set Description tab field
+            descriptionField.value = event.fields['Description'] || '';
+
+            // Set Media tab fields
+            if (event.fields['Group Photo'] && event.fields['Group Photo'].length > 0) {
+                let photoUrl = '';
+                if (event.fields['Group Photo'][0].thumbnails && event.fields['Group Photo'][0].thumbnails.large) {
+                    photoUrl = event.fields['Group Photo'][0].thumbnails.large.url;
+                } else {
+                    photoUrl = event.fields['Group Photo'][0].url;
+                }
+
+                groupPhotoField.value = photoUrl;
+                photoPreview.src = photoUrl;
+                photoPreview.style.display = 'block';
+            } else {
+                groupPhotoField.value = '';
+                photoPreview.style.display = 'none';
+            }
+
+            allPhotosField.value = event.fields['All Photos'] || '';
+
+            // Set Links tab fields
+            emailListField.value = event.fields['Email List'] || '';
+
+            switchTab('basic-info');
+            eventModal.style.display = 'flex';
+        }
+
+        // Open the delete confirmation modal
+        function openDeleteEventModal(id) {
+            deleteEventIdField.value = id;
+            eventDeleteModal.style.display = 'flex';
+        }
+
+        // Save event from form data
+        function handleSaveEvent() {
+            const id = eventIdField.value;
+            const isNewEvent = !id;
+
+            // Validate required fields
+            if (!eventNameField.value.trim()) {
+                showAlert('Event Name is required.', 'danger');
+                switchTab('basic-info');
+                return;
+            }
+
+            if (!dateTimeField.value) {
+                showAlert('Date and Time is required.', 'danger');
+                switchTab('basic-info');
+                return;
+            }
+
+            if (!descriptionField.value.trim()) {
+                showAlert('Description is required.', 'danger');
+                switchTab('description');
+                return;
+            }
+
+            // Get form values for all fields
+            const eventName = eventNameField.value.trim();
+            const dateTime = dateTimeField.value;
+            const chapter = chapterField.value ? chapterField.value.split(',').map(c => c.trim()) : [];
+            const attendance = attendanceField.value ? attendanceField.value.toString() : '';
+            const reviewPeriod = reviewPeriodField.value ? reviewPeriodField.value.split(',').map(r => r.trim()) : [];
+            const description = descriptionField.value.trim();
+            const groupPhoto = groupPhotoField.value.trim();
+            const allPhotos = allPhotosField.value.trim();
+            const emailList = emailListField.value.trim();
+
+            // Create the event data object
+            let eventData;
+
+            if (isNewEvent) {
+                eventData = {
+                    fields: {
+                        'Event Name': eventName,
+                        'Date and Time': dateTime,
+                        'Description': description
+                    }
+                };
+            } else {
+                eventData = {
+                    id: id,
+                    fields: {
+                        'Event Name': eventName,
+                        'Date and Time': dateTime,
+                        'Description': description
+                    }
+                };
+            }
+
+            // Add optional fields if they have values
+            if (chapter.length > 0) eventData.fields['Chapter'] = chapter;
+            if (attendance) eventData.fields['Attendance'] = attendance;
+            if (reviewPeriod.length > 0) eventData.fields['Review Period'] = reviewPeriod;
+            if (allPhotos) eventData.fields['All Photos'] = allPhotos;
+            if (emailList) eventData.fields['Email List'] = emailList;
+
+            // Handle group photo - Note: in a real app, you'd need to handle file uploads
+            // For this demo, we're just using URLs
+            if (groupPhoto) {
+                eventData.fields['Group Photo'] = [
+                    {
+                        url: groupPhoto
+                    }
+                ];
+            }
+
+            saveEvent(eventData)
+                .then(result => {
+                    if (result.success) {
+                        closeEventModals();
+                        showAlert(isNewEvent ? 'Event created successfully.' : 'Event updated successfully.', 'success');
+                        loadEvents();
+                        updateDashboardStats();
+                    }
+                });
+        }
+
+        // Handle event deletion
+        function handleDeleteEvent() {
+            const id = deleteEventIdField.value;
+
+            if (!id) {
+                showAlert('Invalid event ID.', 'danger');
+                return;
+            }
+
+            deleteEvent(id)
+                .then(result => {
+                    if (result.success) {
+                        closeEventModals();
+                        showAlert('Event deleted successfully.', 'success');
+                        loadEvents();
+                        updateDashboardStats();
+                    }
+                });
+        }
+
+        // Close event modals
+        function closeEventModals() {
+            eventModal.style.display = 'none';
+            eventDeleteModal.style.display = 'none';
+        }
+
+        // Show group photo preview when URL is entered
+        function updatePhotoPreview() {
+            const photoUrl = groupPhotoField.value.trim();
+
+            if (photoUrl) {
+                photoPreview.src = photoUrl;
+                photoPreview.style.display = 'block';
+
+                // Handle errors in loading image
+                photoPreview.onerror = function() {
+                    photoPreview.style.display = 'none';
+                    showAlert('Invalid image URL.', 'danger');
+                };
+            } else {
+                photoPreview.style.display = 'none';
+            }
+        }
+
+        // Load events and update UI
+        function loadEvents() {
+            eventsLoadingIndicator.style.display = 'block';
+
+            fetchEvents()
+                .then(data => {
+                    displayEvents(data);
+                    eventsLoadingIndicator.style.display = 'none';
+                })
+                .catch(error => {
+                    showAlert('Error loading events: ' + error.message, 'danger');
+                    eventsLoadingIndicator.style.display = 'none';
+                });
+        }
+
+        // ====================================================
+        // ANNOUNCEMENTS FUNCTIONALITY
+        // ====================================================
+
+        // DOM Elements for Announcements
+        const announcementsTableBody = document.getElementById('announcements-table-body');
+        const announcementModal = document.getElementById('announcement-modal');
+        const announcementDeleteModal = document.getElementById('announcement-delete-modal');
+        const announcementModalTitle = document.getElementById('announcement-modal-title');
+        const announcementForm = document.getElementById('announcement-form');
+        const newAnnouncementBtn = document.getElementById('new-announcement-btn');
+        const announcementCancelBtn = document.getElementById('announcement-cancel-btn');
+        const announcementSaveBtn = document.getElementById('announcement-save-btn');
+        const announcementDeleteBtn = document.getElementById('announcement-confirm-delete-btn');
+        const announcementDeleteCancelBtn = document.getElementById('announcement-delete-cancel-btn');
+        const announcementsLoadingIndicator = document.getElementById('announcements-loading');
+
+        // Form fields for Announcements
+        const announcementIdField = document.getElementById('announcement-id');
+        const titleField = document.getElementById('title');
+        const contentField = document.getElementById('content');
+        const statusField = document.getElementById('status');
+        const imageField = document.getElementById('image');
+        const chaptersAnnouncementField = document.getElementById('chapters');
+        const peopleField = document.getElementById('people');
+        const deleteAnnouncementIdField = document.getElementById('delete-announcement-id');
+
+        // Mock data for announcements demonstration
+        const mockAnnouncements = {
+            "records": [
+                {
+                    "id": "rec6wSke0NBJo72qn",
+                    "createdTime": "2025-03-10T02:46:09.000Z",
+                    "fields": {
+                        "Title": "Our New Announcement!",
+                        "Content": "This is an announcement of the new announcement system\n",
+                        "Status": "Draft",
+                        "Chapters": [
+                            "recLVDrWB7lvOZEeV"
+                        ],
+                        "People": [
+                            "rec7hoZnRipQuJxXR"
+                        ],
+                        "Name (from People)": [
+                            "Dana Sacco"
+                        ],
+                        "Image": "http://thegivehub.com/img/event-1.jpg"
+                    }
+                },
+                {
+                    "id": "rec123456789",
+                    "createdTime": "2025-03-11T10:30:00.000Z",
+                    "fields": {
+                        "Title": "Upcoming Community Event",
+                        "Content": "Join us for our monthly community gathering where we'll discuss new initiatives and opportunities.",
+                        "Status": "Published",
+                        "Chapters": [
+                            "recLVDrWB7lvOZEeV"
+                        ],
+                        "Image": "http://thegivehub.com/img/event-2.jpg"
+                    }
+                },
+                {
+                    "id": "rec987654321",
+                    "createdTime": "2025-03-12T15:20:00.000Z",
+                    "fields": {
+                        "Title": "New Partnership Announcement",
+                        "Content": "We're excited to announce our new partnership with XYZ Organization to expand our reach and impact.",
+                        "Status": "Draft",
+                        "People": [
+                            "rec7hoZnRipQuJxXR"
+                        ],
+                        "Image": "http://thegivehub.com/img/partner-1.jpg"
+                    }
+                }
+            ]
+        };
+
+        // Fetch announcements from Airtable
+        async function fetchAnnouncements() {
+            try {
+                // In a real application, you would use:
+                const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_ANNOUNCEMENTS_TABLE}`;
+                const response = await fetch(url, {
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch announcements');
+                }
+
+                return await response.json();
+
+                // For demonstration, return mock data
+                // return mockAnnouncements;
+            } catch (error) {
+                showAlert(error.message, 'danger');
+                return { records: [] };
+            }
+        }
+
+        // Create a new announcement or update existing one
+        async function saveAnnouncement(announcementData) {
+            const isNewAnnouncement = !announcementData.id;
+
+            try {
+                // In a real application, you would use:
+                const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_ANNOUNCEMENTS_TABLE}`;
+                const method = isNewAnnouncement ? 'POST' : 'PATCH';
+                const body = isNewAnnouncement
+                    ? JSON.stringify({ records: [{ fields: announcementData }] })
+                    : JSON.stringify({
+                        records: [{
+                            id: announcementData.id,
+                            fields: announcementData.fields
+                        }]
+                    });
+
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: body
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to save announcement');
+                }
+
+                const data = await response.json();
+                return data;
+
+                // For demonstration, simulate success
+                // return {
+                //     success: true,
+                //     message: isNewAnnouncement ? 'Announcement created successfully.' : 'Announcement updated successfully.'
+                // };
+            } catch (error) {
+                showAlert(error.message, 'danger');
+                return { success: false };
+            }
+        }
+
+        // Delete an announcement
+        async function deleteAnnouncement(id) {
+            try {
+                // In a real application, you would use:
+                const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_ANNOUNCEMENTS_TABLE}/${id}`;
+                const response = await fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to delete announcement');
+                }
+
+                return await response.json();
+
+                // For demonstration, simulate success
+                // return {
+                //     success: true,
+                //     message: 'Announcement deleted successfully.'
+                // };
+            } catch (error) {
+                showAlert(error.message, 'danger');
+                return { success: false };
+            }
+        }
+
+        // Display announcements in the table
+        function displayAnnouncements(announcements) {
+            announcementsTableBody.innerHTML = '';
+
+            const validAnnouncements = announcements.records.filter(record =>
+                record.fields && Object.keys(record.fields).length > 0
+            );
+
+            if (validAnnouncements.length === 0) {
+                const emptyRow = document.createElement('tr');
+                emptyRow.innerHTML = '<td colspan="5" style="text-align: center;">No announcements found.</td>';
+                announcementsTableBody.appendChild(emptyRow);
+                return;
+            }
+
+            validAnnouncements.forEach(announcement => {
+                const row = document.createElement('tr');
+
+                const title = announcement.fields.Title || 'Untitled';
+                const content = announcement.fields.Content || 'No content';
+                const status = announcement.fields.Status || 'Draft';
+                const image = announcement.fields.Image || '';
+
+                row.innerHTML = `
+                    <td class="truncate">${title}</td>
+                    <td class="truncate">${content}</td>
+                    <td>
+                        <span class="status-badge ${status.toLowerCase() === 'published' ? 'status-published' : 'status-draft'}">
+                            ${status}
+                        </span>
+                    </td>
+                    <td>${image ? '<span style="color: green;">✓</span>' : '-'}</td>
+                    <td class="actions">
+                        <button class="btn btn-secondary action-btn edit-announcement-btn" data-id="${announcement.id}">Edit</button>
+                        <button class="btn btn-danger action-btn delete-announcement-btn" data-id="${announcement.id}">Delete</button>
+                    </td>
+                `;
+
+                announcementsTableBody.appendChild(row);
+            });
+
+            // Add edit and delete event listeners
+            document.querySelectorAll('.edit-announcement-btn').forEach(button => {
+                button.addEventListener('click', (e) => openEditAnnouncementModal(e.target.dataset.id));
+            });
+
+            document.querySelectorAll('.delete-announcement-btn').forEach(button => {
+                button.addEventListener('click', (e) => openDeleteAnnouncementModal(e.target.dataset.id));
+            });
+        }
+
+        // Open the modal for a new announcement
+        function openNewAnnouncementModal() {
+            announcementModalTitle.textContent = 'New Announcement';
+            announcementForm.reset();
+            announcementIdField.value = '';
+            announcementModal.style.display = 'flex';
+        }
+
+        // Open the modal for editing an announcement
+        function openEditAnnouncementModal(id) {
+            const announcement = mockAnnouncements.records.find(record => record.id === id);
+
+            if (!announcement) {
+                showAlert('Announcement not found.', 'danger');
+                return;
+            }
+
+            announcementModalTitle.textContent = 'Edit Announcement';
+            announcementIdField.value = announcement.id;
+            titleField.value = announcement.fields.Title || '';
+            contentField.value = announcement.fields.Content || '';
+            statusField.value = announcement.fields.Status || 'Draft';
+            imageField.value = announcement.fields.Image || '';
+            chaptersAnnouncementField.value = announcement.fields.Chapters ? announcement.fields.Chapters.join(',') : '';
+            peopleField.value = announcement.fields.People ? announcement.fields.People.join(',') : '';
+
+            announcementModal.style.display = 'flex';
+        }
+
+        // Open the delete confirmation modal
+        function openDeleteAnnouncementModal(id) {
+            deleteAnnouncementIdField.value = id;
+            announcementDeleteModal.style.display = 'flex';
+        }
+
+        // Close announcement modals
+        function closeAnnouncementModals() {
+            announcementModal.style.display = 'none';
+            announcementDeleteModal.style.display = 'none';
+        }
+
+        // Save announcement from form data
+        function handleSaveAnnouncement() {
+            const id = announcementIdField.value;
+            const isNewAnnouncement = !id;
+
+            // Get form values
+            const title = titleField.value.trim();
+            const content = contentField.value.trim();
+            const status = statusField.value;
+            const image = imageField.value.trim();
+            const chapters = chaptersAnnouncementField.value ? chaptersAnnouncementField.value.split(',').map(c => c.trim()) : [];
+            const people = peopleField.value ? peopleField.value.split(',').map(p => p.trim()) : [];
+
+            if (!title || !content) {
+                showAlert('Title and content are required.', 'danger');
+                return;
+            }
+
+            let announcementData;
+
+            if (isNewAnnouncement) {
+                announcementData = {
+                    fields: {
+                        Title: title,
+                        Content: content,
+                        Status: status,
+                        Image: image || null,
+                        Chapters: chapters.length > 0 ? chapters : null,
+                        People: people.length > 0 ? people : null
+                    }
+                };
+            } else {
+                announcementData = {
+                    id: id,
+                    fields: {
+                        Title: title,
+                        Content: content,
+                        Status: status,
+                        Image: image || null,
+                        Chapters: chapters.length > 0 ? chapters : null,
+                        People: people.length > 0 ? people : null
+                    }
+                };
+            }
+
+            saveAnnouncement(announcementData)
+                .then(result => {
+                    if (result.success) {
+                        closeAnnouncementModals();
+                        showAlert(isNewAnnouncement ? 'Announcement created successfully.' : 'Announcement updated successfully.', 'success');
+                        loadAnnouncements();
+                        updateDashboardStats();
+                    }
+                });
+        }
+
+        // Handle announcement deletion
+        function handleDeleteAnnouncement() {
+            const id = deleteAnnouncementIdField.value;
+
+            if (!id) {
+                showAlert('Invalid announcement ID.', 'danger');
+                return;
+            }
+
+            deleteAnnouncement(id)
+                .then(result => {
+                    if (result.success) {
+                        closeAnnouncementModals();
+                        showAlert('Announcement deleted successfully.', 'success');
+                        loadAnnouncements();
+                        updateDashboardStats();
+                    }
+                });
+        }
+
+        // Load announcements and update UI
+        function loadAnnouncements() {
+            announcementsLoadingIndicator.style.display = 'block';
+
+            fetchAnnouncements()
+                .then(data => {
+                    displayAnnouncements(data);
+                    announcementsLoadingIndicator.style.display = 'none';
+                })
+                .catch(error => {
+                    showAlert('Error loading announcements: ' + error.message, 'danger');
+                    announcementsLoadingIndicator.style.display = 'none';
+                });
+        }
+
+        // ====================================================
+        // DASHBOARD FUNCTIONALITY
+        // ====================================================
+
+        // DOM Elements for Dashboard
+        const totalEventsElement = document.getElementById('total-events-stat');
+        const upcomingEventsElement = document.getElementById('upcoming-events-stat');
+        const totalAnnouncementsElement = document.getElementById('total-announcements-stat');
+        const recentActivityList = document.getElementById('recent-activity-list');
+
+        // Update dashboard statistics
+        async function updateDashboardStats() {
+            try {
+                // Fetch events and announcements for stats
+                const eventsData = await fetchEvents();
+                const announcementsData = await fetchAnnouncements();
+
+                // Update stats
+                const totalEvents = eventsData.records.filter(record =>
+                    record.fields && Object.keys(record.fields).length > 0
+                ).length;
+
+                const upcomingEvents = eventsData.records.filter(record => {
+                    if (!record.fields || !record.fields['Date and Time']) return false;
+                    const eventDate = new Date(record.fields['Date and Time']);
+                    return eventDate > new Date();
+                }).length;
+
+                const totalAnnouncements = announcementsData.records.filter(record =>
+                    record.fields && Object.keys(record.fields).length > 0
+                ).length;
+
+                // Update UI
+                totalEventsElement.textContent = totalEvents;
+                upcomingEventsElement.textContent = upcomingEvents;
+                totalAnnouncementsElement.textContent = totalAnnouncements;
+
+                // Update recent activity
+                updateRecentActivity(eventsData, announcementsData);
+            } catch (error) {
+                console.error('Error updating dashboard stats:', error);
+            }
+        }
+
+        // Update recent activity list
+        function updateRecentActivity(eventsData, announcementsData) {
+            // Combine events and announcements
+            const activities = [];
+
+            eventsData.records.forEach(event => {
+                if (!event.fields || !event.fields['Event Name']) return;
+
+                activities.push({
+                    id: event.id,
+                    name: event.fields['Event Name'],
+                    type: 'event',
+                    date: new Date(event.createdTime)
+                });
+            });
+
+            announcementsData.records.forEach(announcement => {
+                if (!announcement.fields || !announcement.fields.Title) return;
+
+                activities.push({
+                    id: announcement.id,
+                    name: announcement.fields.Title,
+                    type: 'announcement',
+                    date: new Date(announcement.createdTime)
+                });
+            });
+
+            // Sort activities by date (newest first)
+            activities.sort((a, b) => b.date - a.date);
+
+            // Take the 5 most recent activities
+            const recentActivities = activities.slice(0, 5);
+
+            // Update the UI
+            recentActivityList.innerHTML = '';
+
+            recentActivities.forEach(activity => {
+                const li = document.createElement('li');
+                const activityDate = activity.date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+
+                li.innerHTML = `${activity.type === 'event' ? 'Event' : 'Announcement'}: <strong>${activity.name}</strong> (${activityDate})`;
+                recentActivityList.appendChild(li);
+            });
+
+            if (recentActivities.length === 0) {
+                recentActivityList.innerHTML = '<li>No recent activity</li>';
+            }
+        }
+
+        // ====================================================
+        // EVENT LISTENERS AND INITIALIZATION
+        // ====================================================
+
         // Handle window resize
         window.addEventListener('resize', () => {
             if (window.innerWidth >= 992) {
@@ -712,7 +1980,7 @@
                 sidebarOverlay.classList.remove('active');
             }
         });
-        
+
         // Handle hash change for navigation
         window.addEventListener('hashchange', () => {
             const hash = window.location.hash.substring(1);
@@ -720,15 +1988,60 @@
                 showPage(hash);
             }
         });
-        
+
         // Initialize page based on hash or default to dashboard
         document.addEventListener('DOMContentLoaded', () => {
+            // Events page event listeners
+            newEventBtn.addEventListener('click', openNewEventModal);
+            eventSaveBtn.addEventListener('click', handleSaveEvent);
+            eventDeleteBtn.addEventListener('click', handleDeleteEvent);
+            eventCancelBtn.addEventListener('click', closeEventModals);
+            eventDeleteCancelBtn.addEventListener('click', closeEventModals);
+
+            // Events tab switching
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    switchTab(tab.dataset.tab);
+                });
+            });
+
+            // Events photo preview
+            groupPhotoField.addEventListener('input', updatePhotoPreview);
+
+            // Announcements page event listeners
+            newAnnouncementBtn.addEventListener('click', openNewAnnouncementModal);
+            announcementSaveBtn.addEventListener('click', handleSaveAnnouncement);
+            announcementDeleteBtn.addEventListener('click', handleDeleteAnnouncement);
+            announcementCancelBtn.addEventListener('click', closeAnnouncementModals);
+            announcementDeleteCancelBtn.addEventListener('click', closeAnnouncementModals);
+
+            // Close modals when clicking X or outside
+            document.querySelectorAll('.close').forEach(button => {
+                button.addEventListener('click', function() {
+                    closeEventModals();
+                    closeAnnouncementModals();
+                });
+            });
+
+            window.addEventListener('click', (e) => {
+                if (e.target === eventModal || e.target === eventDeleteModal) {
+                    closeEventModals();
+                }
+                if (e.target === announcementModal || e.target === announcementDeleteModal) {
+                    closeAnnouncementModals();
+                }
+            });
+
+            // Initialize pages based on hash or default to dashboard
             const hash = window.location.hash.substring(1);
             if (['dashboard', 'events', 'announcements'].includes(hash)) {
                 showPage(hash);
             } else {
                 showPage('dashboard');
             }
+
+            // Initial data load for dashboard
+            updateDashboardStats();
         });
     </script>
 </body>
